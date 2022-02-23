@@ -3,6 +3,7 @@ package com.finki.wp.ugostitelskiobjekti.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -12,6 +13,7 @@ public class UgostitelskiObjekt {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String imeNaObjekt;
     private Integer slobodniMasi;
     private Integer vkupnoMasi;
     private String adresa;
@@ -34,13 +36,14 @@ public class UgostitelskiObjekt {
     public UgostitelskiObjekt() {
     }
 
-    public UgostitelskiObjekt(Integer vkupnoMasi, String adresa, String opis, String urlImg, List<Rezervacija> rezervacijaList, Grad grad, Shef shef, List<Vraboten> vrabotenList) {
+    public UgostitelskiObjekt(String imeNaObjekt, Integer vkupnoMasi, String adresa, String opis, String urlImg, Grad grad, Shef shef, List<Vraboten> vrabotenList) {
+        this.imeNaObjekt = imeNaObjekt;
         this.vkupnoMasi = vkupnoMasi;
         this.slobodniMasi = vkupnoMasi;
         this.adresa = adresa;
         this.opis = opis;
         this.urlImg = urlImg;
-        this.rezervacijaList = rezervacijaList;
+        this.rezervacijaList = new ArrayList<>();
         this.grad = grad;
         this.shef = shef;
         this.vrabotenList = vrabotenList;

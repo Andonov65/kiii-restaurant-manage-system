@@ -14,4 +14,15 @@ public class HomeController {
        model.addAttribute("bodyContent", "home");
        return "master-template";
     }
+    @GetMapping("/addObject")
+    public String getAddObject(Model model) {
+        model.addAttribute("bodyContent", "addObject");
+        return "master-template";
+    }
+
+    @GetMapping("/viewObject")
+    public String getViewObject(Model model) {
+        model.addAttribute("bodyContent", "viewObject");
+        return "master-template";
+    }
 }
