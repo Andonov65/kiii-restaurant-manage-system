@@ -10,9 +10,9 @@ import javax.persistence.Id;
 @Entity
 @Data
 public class Shef {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String username;
 
 
     public Shef() {

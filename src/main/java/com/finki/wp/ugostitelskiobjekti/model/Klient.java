@@ -9,8 +9,7 @@ import java.util.List;
 @Data
 public class Klient {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String username;
 
     private Integer vozrast;
 

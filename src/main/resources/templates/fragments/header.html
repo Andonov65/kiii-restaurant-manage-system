@@ -10,14 +10,20 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarsExampleDefault">
                 <ul class="navbar-nav m-auto">
                     <li class="nav-item m-auto">
-                        <a class="nav-link active" href="/products">Products</a>
+                        <a class="nav-link active" sec:authorize="hasRole('ROLE_USER')" href="#">Мои резервации</a>
                     </li>
                     <li class="nav-item m-auto" sec:authorize="hasRole('ROLE_ADMIN')">
-                        <a class="nav-link active" href="/servlet/thymeleaf/category">Categories</a>
+                        <a class="nav-link active" href="#">Вработени</a>
                     </li>
                     <li class="nav-item m-auto" sec:authorize="hasRole('ROLE_ADMIN')">
-                        <a class="nav-link active" href="/manufacturers">Manufacturers</a>
+                        <a class="nav-link active" href="#">Додади Вработен</a>
                     </li>
+
+<!--      TODO          -->
+                    <li class="nav-item m-auto" sec:authorize="hasRole('ROLE_EMPLOYEE')">
+                        <a class="nav-link active" href="#">ToDoEmployee</a>
+                    </li>
+
                 </ul>
 
 
@@ -52,7 +58,7 @@
                         </a>
                     </li>
                     <li class="nav-item" sec:authorize="!isAuthenticated()">
-                        <a class="btn btn-light btn-sm ml-3" href="/login">
+                        <a class="btn btn-light btn-sm ml-3" th:href="@{/login}">
                             <i class="fa fa-shopping-cart"></i> Login
                         </a>
                     </li>
