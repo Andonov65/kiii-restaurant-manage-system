@@ -43,12 +43,21 @@ public class RegisterController {
                            @RequestParam String name,
                            @RequestParam String surname,
                            @RequestParam Role role,
-                           @RequestParam String phoneNum) {
+                           @RequestParam String phoneNum,
+                           @RequestParam  Boolean isShef) {
         //prvo gledame vo authService
         //zatoa shto mora parametrite da gi pratime kaj authservice gore go injektiravme
         try {
-         this.userService.register(username, password, repeatedPassword, name, surname,role,phoneNum);
-            return "redirect:/login";//go redirectirame kon login otkako se registriral
+            if(isShef==null || isShef==false) {
+                this.userService.register(username, password, repeatedPassword, name, surname, role, phoneNum);
+                //TODO spored role da se napravat objekti
+                return "redirect:/login";//go redirectirame kon login otkako se registriral
+                }else{
+                this.userService.register(username, password, repeatedPassword, name, surname, role, phoneNum);
+                //TODO da se napravi objekt na vraboten
+
+                return "redirect:/home";
+            }
         }catch (InvalidArgumentException | PasswordDoNotMatchException exception) {
             return "redirect:/register?error=" + exception.getMessage();
         }
