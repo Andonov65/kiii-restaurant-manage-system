@@ -13,11 +13,13 @@ public class UgostitelskiObjekt {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String imeNaObjekt;
-    private Integer slobodniMasi;
     private Integer vkupnoMasi;
     private String adresa;
     private String opis;
+
+
     private String urlImg;
 
     @OneToMany
@@ -40,7 +42,6 @@ public class UgostitelskiObjekt {
     public UgostitelskiObjekt(String imeNaObjekt, String adresa, String opis, String urlImg, Integer vkupnoMasi, Grad grad, Shef shef) {
         this.imeNaObjekt = imeNaObjekt;
         this.vkupnoMasi = vkupnoMasi;
-        this.slobodniMasi = vkupnoMasi;
         this.adresa = adresa;
         this.opis = opis;
         this.urlImg = urlImg;

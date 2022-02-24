@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GradRepositoryJPA extends JpaRepository<Grad, Long> {
+    Grad getGradByImeGrad(String grad);
 }

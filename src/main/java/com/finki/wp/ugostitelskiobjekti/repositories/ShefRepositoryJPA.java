@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ShefRepositoryJPA extends JpaRepository<Shef, Long> {
+    Shef getShefByUsername(String username);
 }
