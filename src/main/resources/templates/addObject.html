@@ -31,6 +31,15 @@
                         <label>Вкупно маси во објектот: </label>
                         <input class="form-control" name="vkupnoMasi" type="number" min="0">
                     </div>
+                <div class="form-group">
+                    <label>Град на објект: </label>
+                    <input class="form-control" name="grad" type="text">
+                </div>
+                <div class="form-group">
+                    <label>Шеф на објект: </label>
+                    <label class="form-control"  disabled  type="text" th:text="${#request.getRemoteUser()}"></label>
+                    <input class="form-control" hidden name="shef" type="text" th:value="${#request.getRemoteUser()}">
+                </div>
 
 
                 <button type="submit" class="btn btn-outline-dark">Додади</button>

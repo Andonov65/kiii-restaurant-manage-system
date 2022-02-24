@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
 
 
+
     @GetMapping("/add")
     public String getAddObject(Model model) {
         model.addAttribute("bodyContent", "addObject");
@@ -21,13 +22,15 @@ public class AdminController {
         return "master-template";
     }
 
+    //ime= &adresa= &opis= &slika= &vkupnoMasi=
     @PostMapping("/add")
-    public String saveProduct(@RequestParam Long id,
+    public String saveProduct(@RequestParam(required = false) Long id,
                               @RequestParam String ime ,
                               @RequestParam String adresa,
                               @RequestParam String opis,
                               @RequestParam String slika,
                               @RequestParam Integer vkupnoMasi){
+
 
         return "redirect:/master-template";
     }

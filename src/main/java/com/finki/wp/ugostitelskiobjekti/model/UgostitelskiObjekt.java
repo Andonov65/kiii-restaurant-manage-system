@@ -36,7 +36,8 @@ public class UgostitelskiObjekt {
     public UgostitelskiObjekt() {
     }
 
-    public UgostitelskiObjekt(String imeNaObjekt, Integer vkupnoMasi, String adresa, String opis, String urlImg, Grad grad, Shef shef, List<Vraboten> vrabotenList) {
+
+    public UgostitelskiObjekt(String imeNaObjekt, String adresa, String opis, String urlImg, Integer vkupnoMasi, Grad grad, Shef shef) {
         this.imeNaObjekt = imeNaObjekt;
         this.vkupnoMasi = vkupnoMasi;
         this.slobodniMasi = vkupnoMasi;
@@ -46,6 +47,6 @@ public class UgostitelskiObjekt {
         this.rezervacijaList = new ArrayList<>();
         this.grad = grad;
         this.shef = shef;
-        this.vrabotenList = vrabotenList;
+        this.vrabotenList = new ArrayList<>();
     }
 }
