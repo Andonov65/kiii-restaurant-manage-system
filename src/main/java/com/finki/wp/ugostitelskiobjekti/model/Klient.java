@@ -13,6 +13,10 @@ public class Klient {
 
     private Integer vozrast;
 
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "username")
+    private User user;
 //    @OneToMany
 //    private List<Rezervacija> rezervacijaList;
 

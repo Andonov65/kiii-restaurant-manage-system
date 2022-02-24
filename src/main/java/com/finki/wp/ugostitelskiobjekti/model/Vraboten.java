@@ -15,6 +15,10 @@ public class Vraboten {
 
     private Date datumNaVrabotuvanje;
 
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "username")
+    private User user;
 //    @ManyToMany
 //    private List<UgostitelskiObjekt> ugostitelskiObjektList;
 

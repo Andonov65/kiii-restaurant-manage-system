@@ -1,0 +1,71 @@
+<div xmlns:th="http://www.thymeleaf.org">
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">ДОДАДЕТЕ ГО ВАШИОТ ВРАБОТЕН ЗА ЛОКАЛОТ СЕГА</h1>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <form action="/admin/addEmployee" method="POST">
+                    <input id="id" type="hidden" name="id">
+                    <div class="form-group">
+                        <label for="name">Име</label>
+                        <input type="text"
+                               class="form-control"
+                               id="name"
+                               name="name"
+
+                               required
+                               placeholder="Внесете име на вработен">
+                    </div>
+                    <div class="form-group">
+                        <label for="surname">Презиме</label>
+                        <input type="text"
+                               class="form-control"
+                               id="surname"
+                               name="surname"
+
+                               placeholder="Внесете презиме на вработен">
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneNum">Телефонски број</label>
+                        <input type="text"
+                               class="form-control"
+                               id="phoneNum"
+                               name="phoneNum"
+                               placeholder="Внесете го телефонскиот број"  >
+
+                    </div>
+                    <div class="form-group">
+                        <label for="username">Корисничко име</label>
+                        <input type="text"
+                               class="form-control"
+                               id="username"
+                               name="username"
+
+                               placeholder="Внесете го корисничкото име">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Лозинка</label>
+                        <input type="password" name="password" id="password" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Повторете лозинка</label>
+                        <input type="password" name="repeatedPassword" id="repeatedPassword" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Име на угостителскиот објект</label>
+                        <input type="text" name="imeObj" id="imeObj" class="form-control">
+                    </div>
+                    <button id="submit" type="submit" class="btn btn-primary">Зачувај</button>
+                    <a type="button" class="btn btn-primary" href="/home">Назад</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</div>

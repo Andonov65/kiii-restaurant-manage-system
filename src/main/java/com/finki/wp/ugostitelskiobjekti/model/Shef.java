@@ -2,10 +2,7 @@ package com.finki.wp.ugostitelskiobjekti.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -14,6 +11,10 @@ public class Shef {
     @Id
     private String username;
 
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "username")
+    private User user;
 
     public Shef() {
     }
