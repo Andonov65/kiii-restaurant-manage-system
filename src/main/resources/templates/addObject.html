@@ -9,40 +9,66 @@
 <div class="container">
     <div class="row">
         <div class="col-md-5">
-            <form>
-
-                    <div class="form-group" >
-                        <label>Име на објект: </label>
-                        <input class="form-control" name="ime" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label>Адреса на објект: </label>
-                        <input class="form-control" name="adresa" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label>Опис на објект: </label>
-                        <textarea class="form-control" name="opis" type="text"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Слика на објект: </label>
-                        <input class="form-control" name="slika" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label>Вкупно маси во објектот: </label>
-                        <input class="form-control" name="vkupnoMasi" type="number" min="0">
-                    </div>
+            <form action="/admin/add" method="POST">
+                <input id="id" type="hidden" name="id" th:value="(${objekt} != null ? ${objekt.getId()} : '')">
+                <div class="form-group">
+                    <label>Име на објект: </label>
+                    <input class="form-control" name="ime" type="text"
+                           th:value="(${objekt} != null ? ${objekt.imeNaObjekt} : '')">
+                </div>
+                <div class="form-group">
+                    <label>Адреса на објект: </label>
+                    <input class="form-control" name="adresa" type="text"
+                           th:value="(${objekt} != null ? ${objekt.adresa} : '')">
+                </div>
+                <div class="form-group">
+                    <label>Опис на објект: </label>
+                    <textarea class="form-control" name="opis" type="text"
+                              th:text="(${objekt} != null ? ${objekt.opis} : '')"
+                              ></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Слика на објект: </label>
+                    <input type="file" id="slika" name="slika"
+                           th:text="(${objekt} != null ? ${objekt.urlImg} : '')">
+                    <!--                        <input class="form-control" name="slika" type="text">-->
+                </div>
+                <div class="form-group">
+                    <label>Вкупно маси во објектот: </label>
+                    <input class="form-control" name="vkupnoMasi" type="number" min="0"
+                           th:value="(${objekt} != null ? ${objekt.vkupnoMasi} : '')">
+                </div>
                 <div class="form-group">
                     <label>Град на објект: </label>
-                    <input class="form-control" name="grad" type="text">
+                    <select name="grad" class="form-control">
+                        <option
+                                th:if="${objekt} != null"
+                                th:selected="${objekt.grad != null
+                      && objekt.grad.id == grad.id}"
+
+                                th:each="grad : ${gradovi}"
+                                th:text="${grad.imeGrad}"
+                                th:value="${grad.imeGrad}"
+                        ></option>
+                        <option
+                                th:if="${objekt} == null"
+
+                                th:each="grad : ${gradovi}"
+                                th:text="${grad.imeGrad}"
+                                th:value="${grad.imeGrad}"
+                        ></option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label>Шеф на објект: </label>
-                    <label class="form-control"  disabled  type="text" th:text="${#request.getRemoteUser()}"></label>
+                    <label class="form-control" disabled type="text" th:text="${#request.getRemoteUser()}"></label>
                     <input class="form-control" hidden name="shef" type="text" th:value="${#request.getRemoteUser()}">
                 </div>
 
-
-                <button type="submit" class="btn btn-outline-dark">Додади</button>
+                <div style="margin-top: 5%" class="d-flex justify-content-around">
+                    <a type="button" class="btn btn-outline-dark" href="/home">Назад</a>
+                    <button type="submit" class="btn btn-outline-dark">Додади</button>
+                </div>
             </form>
         </div>
     </div>

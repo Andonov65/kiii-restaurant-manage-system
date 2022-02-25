@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UgostitelskiObjektRepositoryJPA extends JpaRepository<UgostitelskiObjekt, Long> {
+    UgostitelskiObjekt findUgostitelskiObjektByImeNaObjekt(String ime);
+    UgostitelskiObjekt deleteByImeNaObjekt(String ime);
 }
