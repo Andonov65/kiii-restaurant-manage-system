@@ -4,9 +4,11 @@
     <title>Title</title>
 </head>
 <body>
+<th:block sec:authorize="hasRole('ROLE_ADMIN')">
 <form action="/admin/add" method="get">
     <button style="margin: 20px" class="btn btn-outline-dark" type="submit">Додади угостителски објект</button>
 </form>
+</th:block>
 <div style="width: 60%; margin: auto ">
     <p th:each="objekt: ${objekti}">
         <img  th:src="${objekt.urlImg}" />

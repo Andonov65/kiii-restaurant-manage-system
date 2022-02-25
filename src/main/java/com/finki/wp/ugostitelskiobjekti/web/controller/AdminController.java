@@ -47,7 +47,7 @@ public class AdminController {
                               @RequestParam String ime ,
                               @RequestParam String adresa,
                               @RequestParam String opis,
-                              @RequestParam String slika,
+                              @RequestParam  byte[] slika,
                               @RequestParam Integer vkupnoMasi,
                               @RequestParam String grad,
                               @RequestParam String shef){
@@ -55,6 +55,7 @@ public class AdminController {
         this.ugostitelskiObjektService.save(ime, adresa, opis, slika, vkupnoMasi, grad, shef);
         return "redirect:/home";
     }
+
 
 
 

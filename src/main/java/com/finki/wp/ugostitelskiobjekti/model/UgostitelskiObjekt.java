@@ -19,8 +19,8 @@ public class UgostitelskiObjekt {
     private String adresa;
     private String opis;
 
-
-    private String urlImg;
+    @Lob
+    private byte[] urlImg;
 
     @OneToMany
     private List<Rezervacija> rezervacijaList;
@@ -39,7 +39,7 @@ public class UgostitelskiObjekt {
     }
 
 
-    public UgostitelskiObjekt(String imeNaObjekt, String adresa, String opis, String urlImg, Integer vkupnoMasi, Grad grad, Shef shef) {
+    public UgostitelskiObjekt(String imeNaObjekt, String adresa, String opis,  byte[] urlImg, Integer vkupnoMasi, Grad grad, Shef shef) {
         this.imeNaObjekt = imeNaObjekt;
         this.vkupnoMasi = vkupnoMasi;
         this.adresa = adresa;
