@@ -35,9 +35,9 @@ public class HomeController {
     public String getViewObject(@PathVariable Long id, Model model) throws UnsupportedEncodingException {
         UgostitelskiObjekt ugostitelskiObjekt = this.ugostitelskiObjektService.findById(id);
 
-        byte[] encodeBase64 = Base64.getEncoder().encode(ugostitelskiObjekt.getUrlImg());
-        String base64Encode = new String(encodeBase64, "UTF-8");
-        model.addAttribute("slika", base64Encode);
+//        byte[] encodeBase64 = Base64.getEncoder().encode(ugostitelskiObjekt.getUrlImg());
+//        String base64Encode = new String(encodeBase64, "UTF-8");
+//        model.addAttribute("slika", base64Encode);
 
         model.addAttribute("objekt", ugostitelskiObjekt);
         model.addAttribute("bodyContent", "viewObject");
@@ -46,7 +46,7 @@ public class HomeController {
 
     @PostMapping("/rezerviraj/{id}")
     public String makeReservation(@PathVariable Long id, Model model){
-        this.ugostitelskiObjektService.rezerviraj(id);
+//        this.ugostitelskiObjektService.rezerviraj(id);
 //        model.addAttribute("objekti", this.ugostitelskiObjektService.findAll());
 //        model.addAttribute("bodyContent", "home");
 //        return "master-template";

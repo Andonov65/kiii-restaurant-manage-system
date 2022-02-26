@@ -8,10 +8,14 @@ import com.finki.wp.ugostitelskiobjekti.repositories.ShefRepositoryJPA;
 import com.finki.wp.ugostitelskiobjekti.repositories.UgostitelskiObjektRepositoryJPA;
 import com.finki.wp.ugostitelskiobjekti.service.UgostitelskiObjektService;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -33,7 +37,7 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
     public UgostitelskiObjekt save(String ime, String adresa, String opis, String slika, Integer vkupnoMasi, String gradId, String shef) {
         Grad grad = this.gradRepositoryJPA.getGradByImeGrad(gradId);
         Shef shef1 = this.shefRepositoryJPA.getShefByUsername(shef);
-        if(ugostitelskiObjektRepositoryJPA.findUgostitelskiObjektByImeNaObjekt(ime) != null) {
+        if (ugostitelskiObjektRepositoryJPA.findUgostitelskiObjektByImeNaObjekt(ime) != null) {
             UgostitelskiObjekt ugostitelskiObjekt = this.ugostitelskiObjektRepositoryJPA.findUgostitelskiObjektByImeNaObjekt(ime);
             ugostitelskiObjekt.setAdresa(adresa);
             ugostitelskiObjekt.setOpis(opis);
@@ -42,8 +46,8 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
             ugostitelskiObjekt.setVkupnoMasi(vkupnoMasi);
             ugostitelskiObjekt.setShef(shef1);
 
-           return ugostitelskiObjektRepositoryJPA.save(ugostitelskiObjekt);
-        }else {
+            return ugostitelskiObjektRepositoryJPA.save(ugostitelskiObjekt);
+        } else {
             UgostitelskiObjekt ugostitelskiObjekt = new UgostitelskiObjekt(ime, adresa, opis, slika, vkupnoMasi, grad, shef1);
             return ugostitelskiObjektRepositoryJPA.save(ugostitelskiObjekt);
         }
@@ -56,6 +60,30 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
 
     @Override
     public UgostitelskiObjekt findById(Long id) {
-        return this.ugostitelskiObjektRepositoryJPA.findById(id).orElseThrow(()-> new RuntimeException());
+        return this.ugostitelskiObjektRepositoryJPA.findById(id).orElseThrow(() -> new RuntimeException());
     }
+
+    @Override
+    public void setPhotos(String fileName) {
+
+    }
+
+    @Override
+    public void saveObj(String ime, String adresa, String opis, MultipartFile slika, Integer vkupnoMasi, String grad, String shef) {
+        Grad gradObj = this.gradRepositoryJPA.getGradByImeGrad(grad);
+        Shef shefObj = this.shefRepositoryJPA.getShefByUsername(shef);
+        UgostitelskiObjekt ugostitelskiObjekt = new UgostitelskiObjekt(ime, adresa, opis, vkupnoMasi, gradObj, shefObj);
+        String fileName = StringUtils.cleanPath(slika.getOriginalFilename());
+        if (fileName.contains("..")) {
+            System.out.println("not a a valid file");
+        }
+        try {
+            ugostitelskiObjekt.setUrlImg(Base64.getEncoder().encodeToString(slika.getBytes()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        this.ugostitelskiObjektRepositoryJPA.save(ugostitelskiObjekt);
+    }
+
 }

@@ -20,7 +20,8 @@ public class UgostitelskiObjekt {
     private String opis;
 
     @Lob
-    private byte[] urlImg;
+    @Column(nullable = true)
+    private String urlImg;
 
     @OneToMany
     private List<Rezervacija> rezervacijaList;
@@ -39,12 +40,23 @@ public class UgostitelskiObjekt {
     }
 
 
-    public UgostitelskiObjekt(String imeNaObjekt, String adresa, String opis,  byte[] urlImg, Integer vkupnoMasi, Grad grad, Shef shef) {
+    public UgostitelskiObjekt(String imeNaObjekt, String adresa, String opis,  String urlImg, Integer vkupnoMasi, Grad grad, Shef shef) {
         this.imeNaObjekt = imeNaObjekt;
         this.vkupnoMasi = vkupnoMasi;
         this.adresa = adresa;
         this.opis = opis;
         this.urlImg = urlImg;
+        this.rezervacijaList = new ArrayList<>();
+        this.grad = grad;
+        this.shef = shef;
+        this.vrabotenList = new ArrayList<>();
+    }
+    public UgostitelskiObjekt(String imeNaObjekt, String adresa, String opis, Integer vkupnoMasi, Grad grad, Shef shef) {
+        this.imeNaObjekt = imeNaObjekt;
+        this.vkupnoMasi = vkupnoMasi;
+        this.adresa = adresa;
+        this.opis = opis;
+
         this.rezervacijaList = new ArrayList<>();
         this.grad = grad;
         this.shef = shef;

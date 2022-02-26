@@ -9,7 +9,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-5">
-            <form action="/admin/add" method="POST">
+            <form th:action="@{/admin/add}" th:method="POST" enctype="multipart/form-data">
                 <input id="id" type="hidden" name="id" th:value="(${objekt} != null ? ${objekt.getId()} : '')">
                 <div class="form-group">
                     <label>Име на објект: </label>
@@ -27,12 +27,19 @@
                               th:text="(${objekt} != null ? ${objekt.opis} : '')"
                               ></textarea>
                 </div>
-                <div class="form-group">
-                    <label>Слика на објект: </label>
-                    <input type="file" id="slika" name="slika"
-                           th:text="(${objekt} != null ? ${objekt.urlImg} : '')">
-                    <!--                        <input class="form-control" name="slika" type="text">-->
+<!--                <div class="form-group">-->
+<!--                    <label>Слика на објект: </label>-->
+<!--                    <input type="file" id="slika" name="slika"-->
+<!--                           th:text="(${objekt} != null ? ${objekt.urlImg} : '')">-->
+<!--                    &lt;!&ndash;                        <input class="form-control" name="slika" type="text">&ndash;&gt;-->
+<!--                </div>-->
+
+                <div class="custom-file mb-4">
+                    <input type="file" name="slika" class="custom-file-input"
+                           id="customFile"> <label class="custom-file-label"
+                                                   for="customFile">Насловна слика</label>
                 </div>
+
                 <div class="form-group">
                     <label>Вкупно маси во објектот: </label>
                     <input class="form-control" name="vkupnoMasi" type="number" min="0"
