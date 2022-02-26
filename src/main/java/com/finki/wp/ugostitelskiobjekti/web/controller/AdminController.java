@@ -69,20 +69,13 @@ public class AdminController {
     @GetMapping("/addEmployee")
     public String getAddEmployeeForm(Model model) {
         model.addAttribute("bodyContent", "register");
-        return "master-template";
+
+        return "master-template";//see dodava preku registracija posle
     }
+    @GetMapping("/employees")
+    public String getEmployeeList(Model model){
+        model.addAttribute("bodyContent", "register");
 
-//    @PostMapping("/addEmployee")
-//    public String getAddEmployeeForm(Model model,
-//                                     @RequestParam String name ,
-//                                     @RequestParam String surname,
-//                                     @RequestParam String phoneNum,
-//                                     @RequestParam String username,
-//                                     @RequestParam Integer password,
-//                                     @RequestParam String imeObj) {
-//
-//        return "master-template";
-//    }
-
-
+        return "master-template";//see dodava preku registracija posle
+    }
 }

@@ -11,7 +11,7 @@
         <div class="d-flex justify-content-between">
             <div class="col-md-5">
                 <img class="form-group"
-                    th:src="@{img/kuche.jpg}">
+                     th:src="*{'data:image/jpeg;base64,'+{objekt.urlImg}}" style="width: 500px;height:300px;">
             </div>
             <div class="col-md-5">
                 <div class="form-group">

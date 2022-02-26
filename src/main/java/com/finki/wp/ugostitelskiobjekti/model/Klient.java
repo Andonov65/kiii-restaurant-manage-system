@@ -13,16 +13,18 @@ public class Klient {
 
     private Integer vozrast;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @MapsId
-    @JoinColumn(name = "username")
+    @JoinColumn(name = "username", referencedColumnName = "username")
     private User user;
 //    @OneToMany
 //    private List<Rezervacija> rezervacijaList;
 
     public Klient() {
     }
-
+    public Klient(String username) {
+        this.username=username;
+    }
     public Klient(Integer vozrast) {
         this.vozrast = vozrast;
     }

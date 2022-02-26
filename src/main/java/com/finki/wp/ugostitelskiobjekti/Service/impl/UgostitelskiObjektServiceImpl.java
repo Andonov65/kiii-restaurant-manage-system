@@ -3,6 +3,7 @@ package com.finki.wp.ugostitelskiobjekti.service.impl;
 import com.finki.wp.ugostitelskiobjekti.model.Grad;
 import com.finki.wp.ugostitelskiobjekti.model.Shef;
 import com.finki.wp.ugostitelskiobjekti.model.UgostitelskiObjekt;
+import com.finki.wp.ugostitelskiobjekti.model.exceptions.InvalidArgumentException;
 import com.finki.wp.ugostitelskiobjekti.repositories.GradRepositoryJPA;
 import com.finki.wp.ugostitelskiobjekti.repositories.ShefRepositoryJPA;
 import com.finki.wp.ugostitelskiobjekti.repositories.UgostitelskiObjektRepositoryJPA;
@@ -71,8 +72,10 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
     @Override
     public void saveObj(String ime, String adresa, String opis, MultipartFile slika, Integer vkupnoMasi, String grad, String shef) {
         Grad gradObj = this.gradRepositoryJPA.getGradByImeGrad(grad);
-        Shef shefObj = this.shefRepositoryJPA.getShefByUsername(shef);
+        Shef shefObj = this.shefRepositoryJPA.getByUsername(shef);//.orElseThrow(InvalidArgumentException::new);
         UgostitelskiObjekt ugostitelskiObjekt = new UgostitelskiObjekt(ime, adresa, opis, vkupnoMasi, gradObj, shefObj);
+        ugostitelskiObjekt.getShef();
+        ugostitelskiObjekt.setShef(shefObj);
         String fileName = StringUtils.cleanPath(slika.getOriginalFilename());
         if (fileName.contains("..")) {
             System.out.println("not a a valid file");

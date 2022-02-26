@@ -56,7 +56,7 @@ public class RegisterController {
                 this.userService.register(username, password, repeatedPassword, name, surname, role, phoneNum);
                 //TODO da se napravi objekt na vraboten
 
-                return "redirect:/home";
+                return "redirect:/home";//tuka kje vleze koga dodal vraboten
             }
         }catch (InvalidArgumentException | PasswordDoNotMatchException exception) {
             return "redirect:/register?error=" + exception.getMessage();

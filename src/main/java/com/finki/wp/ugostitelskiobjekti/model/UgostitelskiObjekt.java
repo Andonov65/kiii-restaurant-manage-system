@@ -29,7 +29,7 @@ public class UgostitelskiObjekt {
     @ManyToOne
     private Grad grad;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)//(cascade = CascadeType.ALL)
     private Shef shef;
 
     @OneToMany
