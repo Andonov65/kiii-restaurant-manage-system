@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import com.finki.wp.ugostitelskiobjekti.Service.UgostitelskiObjektService;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 @Controller
@@ -19,18 +22,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class RegisterController {
     private final AuthService authService;
     private final UserService userService;
-
-    public RegisterController(AuthService authService, UserService userService) {
+private  UgostitelskiObjektService ugostitelskiObjektService;
+    public RegisterController(AuthService authService, UserService userService, UgostitelskiObjektService ugostitelskiObjektService) {
         this.authService = authService;
         this.userService = userService;
+        this.ugostitelskiObjektService = ugostitelskiObjektService;
     }
 
     //ima potreba od get maping zatoa shto mora nekako da ja vratime stranata
     @GetMapping
-    public String getRegisterPage(@RequestParam(required = false) String error, Model model) {
+    public String getRegisterPage(@RequestParam(required = false) String error, Model model, HttpServletRequest request) {
         if (error != null && error.isEmpty()) {
             model.addAttribute("hasError", true);
             model.addAttribute("error", error);
+        }
+        if(request.getParameter("user")!=null){
+            String user=request.getParameter("user");
+
+            model.addAttribute("objekti",this.ugostitelskiObjektService.findAllByShefUserName(user));
         }
         model.addAttribute("bodyContent","register");
         return "master-template";

@@ -1,17 +1,17 @@
 package com.finki.wp.ugostitelskiobjekti.web.controller;
 
-import com.finki.wp.ugostitelskiobjekti.model.Grad;
+import com.finki.wp.ugostitelskiobjekti.Service.ShefService;
+import com.finki.wp.ugostitelskiobjekti.model.Shef;
 import com.finki.wp.ugostitelskiobjekti.model.UgostitelskiObjekt;
-import com.finki.wp.ugostitelskiobjekti.model.User;
-import com.finki.wp.ugostitelskiobjekti.service.GradService;
-import com.finki.wp.ugostitelskiobjekti.service.UgostitelskiObjektService;
+import com.finki.wp.ugostitelskiobjekti.Service.GradService;
+import com.finki.wp.ugostitelskiobjekti.Service.UgostitelskiObjektService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -20,10 +20,13 @@ public class AdminController {
     @Autowired
     private final UgostitelskiObjektService ugostitelskiObjektService;
     private final GradService gradService;
+private final ShefService shefService;
 
-    public AdminController(UgostitelskiObjektService ugostitelskiObjektService, GradService gradService) {
+    public AdminController(UgostitelskiObjektService ugostitelskiObjektService, GradService gradService, ShefService shefService) {
         this.ugostitelskiObjektService = ugostitelskiObjektService;
         this.gradService = gradService;
+
+        this.shefService = shefService;
     }
 
 
@@ -67,7 +70,14 @@ public class AdminController {
     //kelnerPrvaSmena -->pass
     ///admin/addEmployee
     @GetMapping("/addEmployee")
-    public String getAddEmployeeForm(Model model) {
+    public String getAddEmployeeForm(Model model, HttpServletRequest request) {
+     String username=request.getRemoteUser();
+     //najdi gi site imoti so ova korisnichko ime
+    // List<UgostitelskiObjekt> property=   this.ugostitelskiObjektService.findAllByShefUserName(username);
+
+       Shef shef= this.shefService.getShefByUsername(username);
+        List<UgostitelskiObjekt> property=this.ugostitelskiObjektService.findAllByShefUserName(shef);
+        model.addAttribute("properties",property);
         model.addAttribute("bodyContent", "register");
 
         return "master-template";//see dodava preku registracija posle

@@ -1,7 +1,7 @@
 package com.finki.wp.ugostitelskiobjekti.web.controller;
 
 import com.finki.wp.ugostitelskiobjekti.model.UgostitelskiObjekt;
-import com.finki.wp.ugostitelskiobjekti.service.UgostitelskiObjektService;
+import com.finki.wp.ugostitelskiobjekti.Service.UgostitelskiObjektService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,10 +46,10 @@ public class HomeController {
 
     @PostMapping("/rezerviraj/{id}")
     public String makeReservation(@PathVariable Long id, Model model){
-//        this.ugostitelskiObjektService.rezerviraj(id);
-//        model.addAttribute("objekti", this.ugostitelskiObjektService.findAll());
-//        model.addAttribute("bodyContent", "home");
-//        return "master-template";
+        this.ugostitelskiObjektService.rezerviraj(id);
+        model.addAttribute("objekti", this.ugostitelskiObjektService.findAll());
+        model.addAttribute("bodyContent", "home");
+
         return "redirect:/home";
     }
 

@@ -1,8 +1,8 @@
-package com.finki.wp.ugostitelskiobjekti.service.impl;
+package com.finki.wp.ugostitelskiobjekti.Service.impl;
 
 import com.finki.wp.ugostitelskiobjekti.model.Grad;
 import com.finki.wp.ugostitelskiobjekti.repositories.GradRepositoryJPA;
-import com.finki.wp.ugostitelskiobjekti.service.GradService;
+import com.finki.wp.ugostitelskiobjekti.Service.GradService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

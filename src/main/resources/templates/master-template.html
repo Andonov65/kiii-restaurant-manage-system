@@ -10,10 +10,12 @@
 </head>
 <body>
 <header th:replace="fragments/header"/>
+<div class="container">
+    <section th:include="${bodyContent}">
 
-<section th:include="${bodyContent}">
+    </section>
+</div>
 
-</section>
 <!-- Footer -->
 <footer th:replace="fragments/footer"/>
 </body>

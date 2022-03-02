@@ -1,4 +1,4 @@
-package com.finki.wp.ugostitelskiobjekti.service.impl;
+package com.finki.wp.ugostitelskiobjekti.Service.impl;
 
 import com.finki.wp.ugostitelskiobjekti.model.Grad;
 import com.finki.wp.ugostitelskiobjekti.model.Shef;
@@ -7,17 +7,20 @@ import com.finki.wp.ugostitelskiobjekti.model.exceptions.InvalidArgumentExceptio
 import com.finki.wp.ugostitelskiobjekti.repositories.GradRepositoryJPA;
 import com.finki.wp.ugostitelskiobjekti.repositories.ShefRepositoryJPA;
 import com.finki.wp.ugostitelskiobjekti.repositories.UgostitelskiObjektRepositoryJPA;
-import com.finki.wp.ugostitelskiobjekti.service.UgostitelskiObjektService;
+import com.finki.wp.ugostitelskiobjekti.Service.UgostitelskiObjektService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.beans.Transient;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService {
@@ -56,7 +59,7 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
 
     @Override
     public List<UgostitelskiObjekt> findAll() {
-        return this.ugostitelskiObjektRepositoryJPA.findAll();
+        return  this.ugostitelskiObjektRepositoryJPA.findAll().stream().sorted(Comparator.comparing(UgostitelskiObjekt::getId)).collect(Collectors.toList());
     }
 
     @Override
@@ -68,7 +71,17 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
     public void setPhotos(String fileName) {
 
     }
+    @Override
+    public UgostitelskiObjekt rezerviraj(Long id) {
+        UgostitelskiObjekt ugostitelskiObjekt = findById(id);
 
+        if(ugostitelskiObjekt.getVkupnoMasi() != 0) {
+            ugostitelskiObjekt.setVkupnoMasi(ugostitelskiObjekt.getVkupnoMasi() - 1);
+            this.ugostitelskiObjektRepositoryJPA.save(ugostitelskiObjekt);
+        }
+
+        return ugostitelskiObjekt;
+    }
     @Override
     public void saveObj(String ime, String adresa, String opis, MultipartFile slika, Integer vkupnoMasi, String grad, String shef) {
         Grad gradObj = this.gradRepositoryJPA.getGradByImeGrad(grad);
@@ -87,6 +100,22 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
         }
 
         this.ugostitelskiObjektRepositoryJPA.save(ugostitelskiObjekt);
+    }
+
+
+    @Override
+    @Transient
+    public List<UgostitelskiObjekt> findAllByShefUserName(String username) {
+  //    return   findAll().stream().filter(i->i.getShef().getUsername().equals(username)).collect(Collectors.toList());
+   return this.ugostitelskiObjektRepositoryJPA.getAllByShef_Username(username);
+    }
+
+    @Override
+    @Transactional
+    public List<UgostitelskiObjekt> findAllByShefUserName(Shef shef) {
+        //    return   findAll().stream().filter(i->i.getShef().getUsername().equals(username)).collect(Collectors.toList());
+        // return this.ugostitelskiObjektRepositoryJPA.getAllByShef_Username(username)
+        return this.ugostitelskiObjektRepositoryJPA.getAllByShef(shef);
     }
 
 }

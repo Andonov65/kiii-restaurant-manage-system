@@ -52,8 +52,21 @@
             <label class="form-check-label" for="ROLE_USER">ROLE_USER</label>
         </div>
         <div class="form-check form-check-inline" th:if="${#request.getRemoteUser() != null}">
-            <input class="form-check-input" name="role" type="radio" id="ROLE_EMPLOYEE" value="ROLE_EMPLOYEE">
+            <input aria-selected="true" class="form-check-input" name="role" type="radio" id="ROLE_EMPLOYEE"
+                   value="ROLE_EMPLOYEE">
             <label class="form-check-label" for="ROLE_EMPLOYEE">ROLE_EMPLOYEE</label>
+        </div>
+
+        <div class="form-check form-check-inline" th:if="${#request.getRemoteUser() != null}">
+            <label>Угостителски објект во кој го вработувате</label>
+            <select name="objIme" th:if="${#request.getRemoteUser() != null}">
+                <option th:if="${properties!=null}"
+                        th:each="prop:${properties}"
+                        th:text="${prop.imeNaObjekt}"
+                        th:value="${prop.id}">
+
+                </option>
+            </select>
         </div>
         <!--        TODO better way-->
         <div class="form-check form-check-inline">

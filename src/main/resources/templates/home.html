@@ -1,41 +1,40 @@
-<head xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" >
+<head xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
     <meta charset="UTF-8">
     <title>Title</title>
 
 </head>
 <body>
-<th:block >
-<form action="/admin/add" >
-    <button style="margin: 20px" class="btn btn-outline-dark" type="submit">Додади угостителски објект</button>
-</form>
+<th:block>
+    <form action="/admin/add">
+        <button style="margin: 20px" class="btn btn-outline-dark" type="submit">Додади угостителски објект</button>
+    </form>
 </th:block>
-<div class="card-group">
-<!--    TODO IZGLED-->
- <div th:each="singleObj:${objekti}">
-     <div >
-         <a th:href="@{/home/details/{id} (id=${singleObj.id})}">
-             <img class="card-img-top" alt="Restaurant picture" th:src="*{'data:image/jpeg;base64,'+{singleObj.urlImg}}" style="width: 500px;height:300px;">
 
-         </a>
-         <div  th:text="${singleObj.imeNaObjekt}"></div>
-         <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-             <a th:href="@{'/admin/edit/{id}' (id=${singleObj.getId()})}"
-                class="btn btn-sm btn-info edit-product">
-                 <i class="fa fa-trash">Edit</i>
-             </a>
-         </th:block>
+<div class="row row-cols-5">
+    <div class="col" th:each="singleObj:${objekti}">
+        <div><a th:href="@{/home/details/{id} (id=${singleObj.id})}">
+            <img class="card-img-top" alt="Restaurant picture" th:src="*{'data:image/jpeg;base64,'+{singleObj.urlImg}}"
+                 style="width: 500px;height:300px;">
 
-         <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-             <form th:action="@{'/admin/delete/{id}' (id=${singleObj.getId()})}"
-                   th:method="DELETE">
-                 <button type="submit"
-                         class="btn btn-sm btn-danger delete-product">
-                     <i class="fa fa-trash">Delete</i>
-                 </button>
-             </form>
-         </th:block>
-     </div>
- </div>
+        </a>
+            <div th:text="${singleObj.imeNaObjekt}"></div>
+            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                <a th:href="@{'/admin/edit/{id}' (id=${singleObj.getId()})}"
+                   class="btn btn-sm btn-info edit-product">
+                    <i class="fa fa-trash">Edit</i>
+                </a>
+            </th:block>
 
+            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                <form th:action="@{'/admin/delete/{id}' (id=${singleObj.getId()})}"
+                      th:method="DELETE">
+                    <button type="submit"
+                            class="btn btn-sm btn-danger delete-product">
+                        <i class="fa fa-trash">Delete</i>
+                    </button>
+                </form>
+            </th:block>
+        </div>
+    </div>
 </div>
 </body>
