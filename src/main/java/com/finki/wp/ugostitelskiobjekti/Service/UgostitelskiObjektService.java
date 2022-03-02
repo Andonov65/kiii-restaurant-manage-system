@@ -11,7 +11,6 @@ public interface UgostitelskiObjektService {
     UgostitelskiObjekt save(String ime, String adresa, String opis, String slika, Integer vkupnoMasi, String grad, String shef);
     List<UgostitelskiObjekt> findAll();
     UgostitelskiObjekt findById(Long id);
-    UgostitelskiObjekt rezerviraj(Long id);
 
     void setPhotos(String fileName);
 
