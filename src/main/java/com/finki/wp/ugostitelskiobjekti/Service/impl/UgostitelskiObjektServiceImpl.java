@@ -38,7 +38,7 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
     public UgostitelskiObjekt save(String ime, String adresa, String opis, String slika, Integer vkupnoMasi, String gradId, String shef) {
         Grad grad = this.gradRepositoryJPA.getGradByImeGrad(gradId);
         Shef shef1 = this.shefRepositoryJPA.getShefByUsername(shef);
-        if (ugostitelskiObjektRepositoryJPA.findUgostitelskiObjektByImeNaObjekt(ime) != null) {
+        if(ugostitelskiObjektRepositoryJPA.findUgostitelskiObjektByImeNaObjekt(ime) != null) {
             UgostitelskiObjekt ugostitelskiObjekt = this.ugostitelskiObjektRepositoryJPA.findUgostitelskiObjektByImeNaObjekt(ime);
             ugostitelskiObjekt.setAdresa(adresa);
             ugostitelskiObjekt.setOpis(opis);
@@ -89,4 +89,16 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
         this.ugostitelskiObjektRepositoryJPA.save(ugostitelskiObjekt);
     }
 
+
+    @Override
+    public UgostitelskiObjekt rezerviraj(Long id) {
+         UgostitelskiObjekt ugostitelskiObjekt = findById(id);
+
+         if(ugostitelskiObjekt.getVkupnoMasi() != 0) {
+             ugostitelskiObjekt.setVkupnoMasi(ugostitelskiObjekt.getVkupnoMasi() - 1);
+             this.ugostitelskiObjektRepositoryJPA.save(ugostitelskiObjekt);
+         }
+
+         return ugostitelskiObjekt;
+    }
 }
