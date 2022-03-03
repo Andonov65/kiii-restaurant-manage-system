@@ -5,6 +5,7 @@ import com.finki.wp.ugostitelskiobjekti.model.Shef;
 import com.finki.wp.ugostitelskiobjekti.model.UgostitelskiObjekt;
 import com.finki.wp.ugostitelskiobjekti.Service.GradService;
 import com.finki.wp.ugostitelskiobjekti.Service.UgostitelskiObjektService;
+import com.finki.wp.ugostitelskiobjekti.model.Vraboten;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +21,7 @@ public class AdminController {
     @Autowired
     private final UgostitelskiObjektService ugostitelskiObjektService;
     private final GradService gradService;
-private final ShefService shefService;
+    private final ShefService shefService;
 
     public AdminController(UgostitelskiObjektService ugostitelskiObjektService, GradService gradService, ShefService shefService) {
         this.ugostitelskiObjektService = ugostitelskiObjektService;
@@ -71,21 +72,29 @@ private final ShefService shefService;
     ///admin/addEmployee
     @GetMapping("/addEmployee")
     public String getAddEmployeeForm(Model model, HttpServletRequest request) {
-     String username=request.getRemoteUser();
-     //najdi gi site imoti so ova korisnichko ime
-    // List<UgostitelskiObjekt> property=   this.ugostitelskiObjektService.findAllByShefUserName(username);
+        String username = request.getRemoteUser();
+        //najdi gi site imoti so ova korisnichko ime
+        // List<UgostitelskiObjekt> property=   this.ugostitelskiObjektService.findAllByShefUserName(username);
 
-       Shef shef= this.shefService.getShefByUsername(username);
-        List<UgostitelskiObjekt> property=this.ugostitelskiObjektService.findAllByShefUserName(shef);
-        model.addAttribute("properties",property);
+        Shef shef = this.shefService.getShefByUsername(username);
+        List<UgostitelskiObjekt> property = this.ugostitelskiObjektService.findAllByShefUserName(shef);
+        model.addAttribute("properties", property);
         model.addAttribute("bodyContent", "register");
 
         return "master-template";//see dodava preku registracija posle
     }
-    @GetMapping("/employees")
-    public String getEmployeeList(Model model){
-        model.addAttribute("bodyContent", "register");
 
+    @GetMapping("/employees")
+    public String getEmployeeList(Model model, HttpServletRequest request) {
+        model.addAttribute("bodyContent", "employeesInfo");
+//site ugosttitelski objekti akde shto toj e gazda i vrabotenite od tamu
+        String username = request.getRemoteUser();
+        Shef shef = this.shefService.getShefByUsername(username);
+      //  List<List<Vraboten>> vrabotenList = this.ugostitelskiObjektService.findAllEmployeesByShef(shef);
+
+        List<Vraboten> vrabotenList = this.ugostitelskiObjektService.findAllEmployeesByShef2(shef);
+
+        model.addAttribute("employees", vrabotenList);
         return "master-template";//see dodava preku registracija posle
     }
 }

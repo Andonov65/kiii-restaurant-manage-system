@@ -59,7 +59,7 @@
 
         <div class="form-check form-check-inline" th:if="${#request.getRemoteUser() != null}">
             <label>Угостителски објект во кој го вработувате</label>
-            <select name="objIme" th:if="${#request.getRemoteUser() != null}">
+            <select name="objId" th:if="${#request.getRemoteUser() != null}">
                 <option th:if="${properties!=null}"
                         th:each="prop:${properties}"
                         th:text="${prop.imeNaObjekt}"

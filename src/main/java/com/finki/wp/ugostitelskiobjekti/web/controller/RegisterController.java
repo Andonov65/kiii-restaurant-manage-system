@@ -53,7 +53,8 @@ private  UgostitelskiObjektService ugostitelskiObjektService;
                            @RequestParam String surname,
                            @RequestParam Role role,
                            @RequestParam String phoneNum,
-                           @RequestParam  Boolean isShef) {
+                           @RequestParam  Boolean isShef,
+                           @RequestParam(required = false)Long objId) {
         //prvo gledame vo authService
         //zatoa shto mora parametrite da gi pratime kaj authservice gore go injektiravme
         try {
@@ -63,6 +64,7 @@ private  UgostitelskiObjektService ugostitelskiObjektService;
                 return "redirect:/login";//go redirectirame kon login otkako se registriral
                 }else{
                 this.userService.register(username, password, repeatedPassword, name, surname, role, phoneNum);
+                this.ugostitelskiObjektService.vraboti(username,objId);
                 //TODO da se napravi objekt na vraboten
 
                 return "redirect:/home";//tuka kje vleze koga dodal vraboten

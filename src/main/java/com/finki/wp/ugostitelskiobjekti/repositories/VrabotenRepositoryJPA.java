@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface VrabotenRepositoryJPA extends JpaRepository<Vraboten, Long> {
+Vraboten findByUsername(String username);
 }

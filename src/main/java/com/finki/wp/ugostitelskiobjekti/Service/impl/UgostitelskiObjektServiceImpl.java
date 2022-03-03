@@ -3,20 +3,20 @@ package com.finki.wp.ugostitelskiobjekti.Service.impl;
 import com.finki.wp.ugostitelskiobjekti.model.Grad;
 import com.finki.wp.ugostitelskiobjekti.model.Shef;
 import com.finki.wp.ugostitelskiobjekti.model.UgostitelskiObjekt;
-import com.finki.wp.ugostitelskiobjekti.model.exceptions.InvalidArgumentException;
+import com.finki.wp.ugostitelskiobjekti.model.Vraboten;
 import com.finki.wp.ugostitelskiobjekti.repositories.GradRepositoryJPA;
 import com.finki.wp.ugostitelskiobjekti.repositories.ShefRepositoryJPA;
 import com.finki.wp.ugostitelskiobjekti.repositories.UgostitelskiObjektRepositoryJPA;
 import com.finki.wp.ugostitelskiobjekti.Service.UgostitelskiObjektService;
+import com.finki.wp.ugostitelskiobjekti.repositories.VrabotenRepositoryJPA;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.beans.Transient;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Comparator;
 import java.util.List;
@@ -27,12 +27,14 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
     private final UgostitelskiObjektRepositoryJPA ugostitelskiObjektRepositoryJPA;
     private final GradRepositoryJPA gradRepositoryJPA;
     private final ShefRepositoryJPA shefRepositoryJPA;
+    private final VrabotenRepositoryJPA vrabotenRepositoryJPA;
 
 
-    public UgostitelskiObjektServiceImpl(UgostitelskiObjektRepositoryJPA ugostitelskiObjektRepositoryJPA, GradRepositoryJPA gradRepositoryJPA, ShefRepositoryJPA shefRepositoryJPA) {
+    public UgostitelskiObjektServiceImpl(UgostitelskiObjektRepositoryJPA ugostitelskiObjektRepositoryJPA, GradRepositoryJPA gradRepositoryJPA, ShefRepositoryJPA shefRepositoryJPA, VrabotenRepositoryJPA vrabotenRepositoryJPA) {
         this.ugostitelskiObjektRepositoryJPA = ugostitelskiObjektRepositoryJPA;
         this.gradRepositoryJPA = gradRepositoryJPA;
         this.shefRepositoryJPA = shefRepositoryJPA;
+        this.vrabotenRepositoryJPA = vrabotenRepositoryJPA;
     }
 
 
@@ -59,7 +61,7 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
 
     @Override
     public List<UgostitelskiObjekt> findAll() {
-        return  this.ugostitelskiObjektRepositoryJPA.findAll().stream().sorted(Comparator.comparing(UgostitelskiObjekt::getId)).collect(Collectors.toList());
+        return this.ugostitelskiObjektRepositoryJPA.findAll().stream().sorted(Comparator.comparing(UgostitelskiObjekt::getId)).collect(Collectors.toList());
     }
 
     @Override
@@ -71,17 +73,19 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
     public void setPhotos(String fileName) {
 
     }
+
     @Override
     public UgostitelskiObjekt rezerviraj(Long id) {
         UgostitelskiObjekt ugostitelskiObjekt = findById(id);
 
-        if(ugostitelskiObjekt.getVkupnoMasi() != 0) {
+        if (ugostitelskiObjekt.getVkupnoMasi() != 0) {
             ugostitelskiObjekt.setVkupnoMasi(ugostitelskiObjekt.getVkupnoMasi() - 1);
             this.ugostitelskiObjektRepositoryJPA.save(ugostitelskiObjekt);
         }
 
         return ugostitelskiObjekt;
     }
+
     @Override
     public void saveObj(String ime, String adresa, String opis, MultipartFile slika, Integer vkupnoMasi, String grad, String shef) {
         Grad gradObj = this.gradRepositoryJPA.getGradByImeGrad(grad);
@@ -106,8 +110,8 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
     @Override
     @Transient
     public List<UgostitelskiObjekt> findAllByShefUserName(String username) {
-  //    return   findAll().stream().filter(i->i.getShef().getUsername().equals(username)).collect(Collectors.toList());
-   return this.ugostitelskiObjektRepositoryJPA.getAllByShef_Username(username);
+        //    return   findAll().stream().filter(i->i.getShef().getUsername().equals(username)).collect(Collectors.toList());
+        return this.ugostitelskiObjektRepositoryJPA.getAllByShef_Username(username);
     }
 
     @Override
@@ -117,5 +121,40 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
         // return this.ugostitelskiObjektRepositoryJPA.getAllByShef_Username(username)
         return this.ugostitelskiObjektRepositoryJPA.getAllByShef(shef);
     }
+    //ako ne kje go koristime ova !
+@Transactional
+    @Override
+    public List<List<Vraboten>> findAllEmployeesByShef(Shef shef) {
+        List<UgostitelskiObjekt> ugostitelskiObjektList = findAllByShefUserName(shef);
+        return ugostitelskiObjektList.stream().map(e -> e.getVrabotenList()).collect(Collectors.toList());
+    }
+
+    @Transactional
+    @Override
+    public List<Vraboten> findAllEmployeesByShef2(Shef shef) {
+//        List<UgostitelskiObjekt> ugostitelskiObjektList = findAllByShefUserName(shef);
+//      return  ugostitelskiObjektList.stream().map(obj->{
+//          if(!obj.getVrabotenList().isEmpty())
+//              return obj.getVrabotenList();
+//
+//      })
+        return null;
+    }
+
+    @Override
+    public Vraboten vraboti(String username, Long objId) {
+        //najdi go koj vraboten treba da se dodade
+        Vraboten v = this.vrabotenRepositoryJPA.findByUsername(username);
+        UgostitelskiObjekt ugostitelskiObjekt = this.ugostitelskiObjektRepositoryJPA.findById(objId).get();
+        ugostitelskiObjekt.getVrabotenList().add(v);
+        this.ugostitelskiObjektRepositoryJPA.save(ugostitelskiObjekt);
+        return v;
+
+    }
+//    @Override
+//    public List<Vraboten> findAllEmployeesByShef(Shef shef) {
+//        List<UgostitelskiObjekt> ugostitelskiObjektList=findAllByShefUserName(shef);
+//        return  ugostitelskiObjektList.stream().map(e->e.getVrabotenList()).collect(Collectors.toList());
+//    }
 
 }

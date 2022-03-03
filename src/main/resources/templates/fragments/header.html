@@ -13,8 +13,9 @@
                         <a class="nav-link active" sec:authorize="hasRole('ROLE_USER')" href="#">Мои резервации</a>
                     </li>
                     <li class="nav-item m-auto" sec:authorize="hasRole('ROLE_ADMIN')">
-                        <a class="nav-link active" href="#">Вработени</a>
+                        <a class="nav-link active" href="/admin/employees">Вработени</a>
                     </li>
+
                     <li class="nav-item m-auto" sec:authorize="hasRole('ROLE_ADMIN')">
                         <a class="nav-link active" href="/admin/addEmployee">Додади Вработен</a>
                     </li>
