@@ -37,27 +37,26 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
         this.vrabotenRepositoryJPA = vrabotenRepositoryJPA;
     }
 
-
-    @Override
-    @Transactional
-    public UgostitelskiObjekt save(String ime, String adresa, String opis, String slika, Integer vkupnoMasi, String gradId, String shef) {
-        Grad grad = this.gradRepositoryJPA.getGradByImeGrad(gradId);
-        Shef shef1 = this.shefRepositoryJPA.getShefByUsername(shef);
-        if (ugostitelskiObjektRepositoryJPA.findUgostitelskiObjektByImeNaObjekt(ime) != null) {
-            UgostitelskiObjekt ugostitelskiObjekt = this.ugostitelskiObjektRepositoryJPA.findUgostitelskiObjektByImeNaObjekt(ime);
-            ugostitelskiObjekt.setAdresa(adresa);
-            ugostitelskiObjekt.setOpis(opis);
-            ugostitelskiObjekt.setUrlImg(slika);
-            ugostitelskiObjekt.setGrad(grad);
-            ugostitelskiObjekt.setVkupnoMasi(vkupnoMasi);
-            ugostitelskiObjekt.setShef(shef1);
-
-            return ugostitelskiObjektRepositoryJPA.save(ugostitelskiObjekt);
-        } else {
-            UgostitelskiObjekt ugostitelskiObjekt = new UgostitelskiObjekt(ime, adresa, opis, slika, vkupnoMasi, grad, shef1);
-            return ugostitelskiObjektRepositoryJPA.save(ugostitelskiObjekt);
-        }
-    }
+//    @Override
+//    @Transactional
+//    public UgostitelskiObjekt save(String ime, String adresa, String opis, String slika, Integer vkupnoMasi, String gradId, String shef) {
+//        Grad grad = this.gradRepositoryJPA.getGradByImeGrad(gradId);
+//        Shef shef1 = this.shefRepositoryJPA.getShefByUsername(shef);
+//        if (ugostitelskiObjektRepositoryJPA.findUgostitelskiObjektByImeNaObjekt(ime) != null) {
+//            UgostitelskiObjekt ugostitelskiObjekt = this.ugostitelskiObjektRepositoryJPA.findUgostitelskiObjektByImeNaObjekt(ime);
+//            ugostitelskiObjekt.setAdresa(adresa);
+//            ugostitelskiObjekt.setOpis(opis);
+//            ugostitelskiObjekt.setUrlImg(slika);
+//            ugostitelskiObjekt.setGrad(grad);
+//            ugostitelskiObjekt.setVkupnoMasi(vkupnoMasi);
+//            ugostitelskiObjekt.setShef(shef1);
+//
+//            return ugostitelskiObjektRepositoryJPA.save(ugostitelskiObjekt);
+//        } else {
+//            UgostitelskiObjekt ugostitelskiObjekt = new UgostitelskiObjekt(ime, adresa, opis, slika, vkupnoMasi, grad, shef1);
+//            return ugostitelskiObjektRepositoryJPA.save(ugostitelskiObjekt);
+//        }
+//    }
 
     @Override
     public List<UgostitelskiObjekt> findAll() {
@@ -82,27 +81,39 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
             ugostitelskiObjekt.setVkupnoMasi(ugostitelskiObjekt.getVkupnoMasi() - 1);
             this.ugostitelskiObjektRepositoryJPA.save(ugostitelskiObjekt);
         }
-
         return ugostitelskiObjekt;
     }
-
+    //tag + if
     @Override
+    @Transactional
     public void saveObj(String ime, String adresa, String opis, MultipartFile slika, Integer vkupnoMasi, String grad, String shef) {
         Grad gradObj = this.gradRepositoryJPA.getGradByImeGrad(grad);
         Shef shefObj = this.shefRepositoryJPA.getByUsername(shef);//.orElseThrow(InvalidArgumentException::new);
-        UgostitelskiObjekt ugostitelskiObjekt = new UgostitelskiObjekt(ime, adresa, opis, vkupnoMasi, gradObj, shefObj);
-        ugostitelskiObjekt.getShef();
-        ugostitelskiObjekt.setShef(shefObj);
+        UgostitelskiObjekt ugostitelskiObjekt;
+        if(this.ugostitelskiObjektRepositoryJPA.findUgostitelskiObjektByImeNaObjekt(ime)!=null){
+             ugostitelskiObjekt = this.ugostitelskiObjektRepositoryJPA.findUgostitelskiObjektByImeNaObjekt(ime);
+            ugostitelskiObjekt.setAdresa(adresa);
+            ugostitelskiObjekt.setOpis(opis);
+            ugostitelskiObjekt.setVkupnoMasi(vkupnoMasi);
+            ugostitelskiObjekt.setGrad(gradObj);
+            ugostitelskiObjekt.setShef(shefObj);
+        }else {
+            ugostitelskiObjekt = new UgostitelskiObjekt(ime, adresa, opis, vkupnoMasi, gradObj, shefObj);
+            ugostitelskiObjekt.getShef();
+            ugostitelskiObjekt.setShef(shefObj);
+        }
         String fileName = StringUtils.cleanPath(slika.getOriginalFilename());
         if (fileName.contains("..")) {
             System.out.println("not a a valid file");
         }
         try {
+            if(slika.isEmpty())
+                ugostitelskiObjekt.setUrlImg(ugostitelskiObjekt.getUrlImg());
+
             ugostitelskiObjekt.setUrlImg(Base64.getEncoder().encodeToString(slika.getBytes()));
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         this.ugostitelskiObjektRepositoryJPA.save(ugostitelskiObjekt);
     }
 
