@@ -86,15 +86,16 @@ public class AdminController {
 
     @GetMapping("/employees")
     public String getEmployeeList(Model model, HttpServletRequest request) {
-        model.addAttribute("bodyContent", "employeesInfo");
+
 //site ugosttitelski objekti akde shto toj e gazda i vrabotenite od tamu
         String username = request.getRemoteUser();
         Shef shef = this.shefService.getShefByUsername(username);
-      //  List<List<Vraboten>> vrabotenList = this.ugostitelskiObjektService.findAllEmployeesByShef(shef);
 
-        List<Vraboten> vrabotenList = this.ugostitelskiObjektService.findAllEmployeesByShef2(shef);
 
+        List<Vraboten> vrabotenList = this.ugostitelskiObjektService.findAllEmployeesByShef(shef);
         model.addAttribute("employees", vrabotenList);
+        model.addAttribute("shef", username);
+        model.addAttribute("bodyContent", "employeesInfo");
         return "master-template";//see dodava preku registracija posle
     }
 }

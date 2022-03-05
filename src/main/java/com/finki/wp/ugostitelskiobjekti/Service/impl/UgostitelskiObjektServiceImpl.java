@@ -135,9 +135,14 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
     //ako ne kje go koristime ova !
 @Transactional
     @Override
-    public List<List<Vraboten>> findAllEmployeesByShef(Shef shef) {
+    public List<Vraboten> findAllEmployeesByShef(Shef shef) {
         List<UgostitelskiObjekt> ugostitelskiObjektList = findAllByShefUserName(shef);
-        return ugostitelskiObjektList.stream().map(e -> e.getVrabotenList()).collect(Collectors.toList());
+//        return ugostitelskiObjektList.stream().map(e -> e.getVrabotenList()).collect(Collectors.toList());
+        List<Vraboten> vrabotenList = new ArrayList<>();
+        ugostitelskiObjektList.stream().forEach(u -> {
+            vrabotenList.addAll(u.getVrabotenList());
+        });
+        return vrabotenList;
     }
 
     @Transactional

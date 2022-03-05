@@ -20,7 +20,7 @@ public interface UgostitelskiObjektService {
 
     List<UgostitelskiObjekt> findAllByShefUserName(Shef shef) ;
 
-    List<List<Vraboten>> findAllEmployeesByShef(Shef shef);
+    List<Vraboten> findAllEmployeesByShef(Shef shef);
     List<Vraboten> findAllEmployeesByShef2(Shef shef);
 
     Vraboten vraboti(String username,Long objId);
