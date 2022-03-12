@@ -37,26 +37,6 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
         this.vrabotenRepositoryJPA = vrabotenRepositoryJPA;
     }
 
-//    @Override
-//    @Transactional
-//    public UgostitelskiObjekt save(String ime, String adresa, String opis, String slika, Integer vkupnoMasi, String gradId, String shef) {
-//        Grad grad = this.gradRepositoryJPA.getGradByImeGrad(gradId);
-//        Shef shef1 = this.shefRepositoryJPA.getShefByUsername(shef);
-//        if (ugostitelskiObjektRepositoryJPA.findUgostitelskiObjektByImeNaObjekt(ime) != null) {
-//            UgostitelskiObjekt ugostitelskiObjekt = this.ugostitelskiObjektRepositoryJPA.findUgostitelskiObjektByImeNaObjekt(ime);
-//            ugostitelskiObjekt.setAdresa(adresa);
-//            ugostitelskiObjekt.setOpis(opis);
-//            ugostitelskiObjekt.setUrlImg(slika);
-//            ugostitelskiObjekt.setGrad(grad);
-//            ugostitelskiObjekt.setVkupnoMasi(vkupnoMasi);
-//            ugostitelskiObjekt.setShef(shef1);
-//
-//            return ugostitelskiObjektRepositoryJPA.save(ugostitelskiObjekt);
-//        } else {
-//            UgostitelskiObjekt ugostitelskiObjekt = new UgostitelskiObjekt(ime, adresa, opis, slika, vkupnoMasi, grad, shef1);
-//            return ugostitelskiObjektRepositoryJPA.save(ugostitelskiObjekt);
-//        }
-//    }
 
     @Override
     public List<UgostitelskiObjekt> findAll() {
@@ -68,10 +48,7 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
         return this.ugostitelskiObjektRepositoryJPA.findById(id).orElseThrow(() -> new RuntimeException());
     }
 
-    @Override
-    public void setPhotos(String fileName) {
 
-    }
 
     @Override
     public UgostitelskiObjekt rezerviraj(Long id) {
@@ -86,22 +63,27 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
     //tag + if
     @Override
     @Transactional
-    public void saveObj(String ime, String adresa, String opis, MultipartFile slika, Integer vkupnoMasi, String grad, String shef) {
+    public void saveObj(Long id, String ime, String adresa, String opis, MultipartFile slika, Integer vkupnoMasi, String grad, String shef) {
         Grad gradObj = this.gradRepositoryJPA.getGradByImeGrad(grad);
         Shef shefObj = this.shefRepositoryJPA.getByUsername(shef);//.orElseThrow(InvalidArgumentException::new);
-        UgostitelskiObjekt ugostitelskiObjekt;
-        if(this.ugostitelskiObjektRepositoryJPA.findUgostitelskiObjektByImeNaObjekt(ime)!=null){
-             ugostitelskiObjekt = this.ugostitelskiObjektRepositoryJPA.findUgostitelskiObjektByImeNaObjekt(ime);
-            ugostitelskiObjekt.setAdresa(adresa);
-            ugostitelskiObjekt.setOpis(opis);
-            ugostitelskiObjekt.setVkupnoMasi(vkupnoMasi);
-            ugostitelskiObjekt.setGrad(gradObj);
-            ugostitelskiObjekt.setShef(shefObj);
+        UgostitelskiObjekt ugostitelskiObjekt = null;
+
+        if(id!=null) {
+            if (this.ugostitelskiObjektRepositoryJPA.findById(id).isPresent()) {
+                ugostitelskiObjekt = this.ugostitelskiObjektRepositoryJPA.findById(id).orElseThrow(RuntimeException::new);
+                ugostitelskiObjekt.setImeNaObjekt(ime);
+                ugostitelskiObjekt.setAdresa(adresa);
+                ugostitelskiObjekt.setOpis(opis);
+                ugostitelskiObjekt.setVkupnoMasi(vkupnoMasi);
+                ugostitelskiObjekt.setGrad(gradObj);
+                ugostitelskiObjekt.setShef(shefObj);
+            }
         }else {
             ugostitelskiObjekt = new UgostitelskiObjekt(ime, adresa, opis, vkupnoMasi, gradObj, shefObj);
             ugostitelskiObjekt.getShef();
             ugostitelskiObjekt.setShef(shefObj);
         }
+
         String fileName = StringUtils.cleanPath(slika.getOriginalFilename());
         if (fileName.contains("..")) {
             System.out.println("not a a valid file");
@@ -121,16 +103,14 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
     @Override
     @Transient
     public List<UgostitelskiObjekt> findAllByShefUserName(String username) {
-        //    return   findAll().stream().filter(i->i.getShef().getUsername().equals(username)).collect(Collectors.toList());
         return this.ugostitelskiObjektRepositoryJPA.getAllByShef_Username(username);
+
     }
 
     @Override
     @Transactional
     public List<UgostitelskiObjekt> findAllByShefUserName(Shef shef) {
-        //    return   findAll().stream().filter(i->i.getShef().getUsername().equals(username)).collect(Collectors.toList());
-        // return this.ugostitelskiObjektRepositoryJPA.getAllByShef_Username(username)
-        return this.ugostitelskiObjektRepositoryJPA.getAllByShef(shef);
+       return this.ugostitelskiObjektRepositoryJPA.getAllByShef(shef);
     }
     //ako ne kje go koristime ova !
 @Transactional
@@ -145,17 +125,6 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
         return vrabotenList;
     }
 
-    @Transactional
-    @Override
-    public List<Vraboten> findAllEmployeesByShef2(Shef shef) {
-//        List<UgostitelskiObjekt> ugostitelskiObjektList = findAllByShefUserName(shef);
-//      return  ugostitelskiObjektList.stream().map(obj->{
-//          if(!obj.getVrabotenList().isEmpty())
-//              return obj.getVrabotenList();
-//
-//      })
-        return null;
-    }
 
     @Override
     public Vraboten vraboti(String username, Long objId) {
@@ -167,10 +136,13 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
         return v;
 
     }
-//    @Override
-//    public List<Vraboten> findAllEmployeesByShef(Shef shef) {
-//        List<UgostitelskiObjekt> ugostitelskiObjektList=findAllByShefUserName(shef);
-//        return  ugostitelskiObjektList.stream().map(e->e.getVrabotenList()).collect(Collectors.toList());
-//    }
+
+    @Override
+    public List<UgostitelskiObjekt> imeTextContaining(String text) {
+       return this.ugostitelskiObjektRepositoryJPA.findAll()
+               .stream().filter(i -> i.getImeNaObjekt().contains(text))
+               .collect(Collectors.toList());
+    }
+
 
 }

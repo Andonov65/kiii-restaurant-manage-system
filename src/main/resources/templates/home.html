@@ -18,8 +18,8 @@
 
         </a>
             <div th:text="${singleObj.imeNaObjekt}"></div>
-            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-                <a th:href="@{'/admin/edit/{id}' (id=${singleObj.getId()})}"
+            <th:block>
+                <a  sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{'/admin/edit/{id}' (id=${singleObj.getId()})}"
                    class="btn btn-sm btn-info edit-product">
                     <i class="fa fa-trash">Edit</i>
                 </a>
