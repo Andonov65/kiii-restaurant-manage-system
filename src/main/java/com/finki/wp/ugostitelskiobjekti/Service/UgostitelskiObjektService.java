@@ -12,16 +12,16 @@ public interface UgostitelskiObjektService {
     List<UgostitelskiObjekt> findAll();
     UgostitelskiObjekt findById(Long id);
      UgostitelskiObjekt rezerviraj(Long id);
-    void setPhotos(String fileName);
 
-    void saveObj(String ime, String adresa, String opis, MultipartFile slika, Integer vkupnoMasi, String grad, String shef);
+    void saveObj(Long id, String ime, String adresa, String opis, MultipartFile slika, Integer vkupnoMasi, String grad, String shef);
 
     List<UgostitelskiObjekt> findAllByShefUserName(String username);
 
     List<UgostitelskiObjekt> findAllByShefUserName(Shef shef) ;
 
     List<Vraboten> findAllEmployeesByShef(Shef shef);
-    List<Vraboten> findAllEmployeesByShef2(Shef shef);
 
     Vraboten vraboti(String username,Long objId);
+
+    List<UgostitelskiObjekt> imeTextContaining(String text);
 }

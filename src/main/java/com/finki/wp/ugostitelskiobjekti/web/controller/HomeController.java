@@ -4,10 +4,7 @@ import com.finki.wp.ugostitelskiobjekti.model.UgostitelskiObjekt;
 import com.finki.wp.ugostitelskiobjekti.Service.UgostitelskiObjektService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
@@ -53,6 +50,12 @@ public class HomeController {
         return "redirect:/home";
     }
 
+    @GetMapping("/search")
+    public String searchObject(@RequestParam String textSearch, Model model){
+        model.addAttribute("objekti", this.ugostitelskiObjektService.imeTextContaining(textSearch));
+        model.addAttribute("bodyContent", "home");
+        return "master-template";
+    }
 
 
 

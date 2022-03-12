@@ -61,7 +61,8 @@ public class AdminController {
                               @RequestParam String shef) {
         //  String fileName = StringUtils.cleanPath(slika.getOriginalFilename());//imeto na slikata go zima
 
-        ugostitelskiObjektService.saveObj(ime, adresa, opis, slika, vkupnoMasi, grad, shef);
+
+        ugostitelskiObjektService.saveObj(id, ime, adresa, opis, slika, vkupnoMasi, grad, shef);
 
         return "redirect:/home";
     }

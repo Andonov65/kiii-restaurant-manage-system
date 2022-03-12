@@ -28,9 +28,10 @@
                 </ul>
 
 
-                <form class="form-inline my-2 my-lg-0">
+                <form action="/home/search" method="get" class="form-inline my-2 my-lg-0">
                     <div class="input-group input-group-sm">
                         <input type="text" class="form-control" aria-label="Small"
+                               name="textSearch"
                                aria-describedby="inputGroup-sizing-sm"
                                placeholder="Search...">
                         <div class="input-group-append">
@@ -42,17 +43,17 @@
                 </form>
                 <ul class="nav navbar-nav navbar-right">
 
-                    <li class="nav-item" sec:authorize="isAuthenticated()">
-                        <a class="nav-link" href="#">
+                    <li class="navbar-item" sec:authorize="isAuthenticated()">
+                        <a class="navbar-brand nav-link disabled" href="#">
                             <th:block th:if="${#request.getRemoteUser() != null}"
                                       th:text="${#request.getRemoteUser()}"></th:block>
                         </a>
                     </li>
-                    <li class="nav-item" sec:authorize="isAuthenticated()">
-                        <a class="btn btn-success btn-sm ml-3" href="/shopping-cart">
-                            <i class="fa fa-shopping-cart"></i> Cart
-                        </a>
-                    </li>
+<!--                    <li class="nav-item" sec:authorize="isAuthenticated()">-->
+<!--                        <a class="btn btn-success btn-sm ml-3" href="/shopping-cart">-->
+<!--                            <i class="fa fa-shopping-cart"></i> Cart-->
+<!--                        </a>-->
+<!--                    </li>-->
                     <li class="nav-item" sec:authorize="isAuthenticated()">
                         <a class="btn btn-light btn-sm ml-3" href="/logout">
                             <i class="fa fa-shopping-cart"></i> Logout
