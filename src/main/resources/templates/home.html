@@ -5,7 +5,7 @@
 </head>
 <body>
 <th:block>
-    <form action="/admin/add">
+    <form action="/admin/add"  sec:authorize="hasRole('ROLE_ADMIN')">
         <button style="margin: 20px" class="btn btn-outline-dark" type="submit">Додади угостителски објект</button>
     </form>
 </th:block>
@@ -33,6 +33,12 @@
                         <i class="fa fa-trash">Delete</i>
                     </button>
                 </form>
+            </th:block>
+
+<!--            Only users can make reservations-->
+            <th:block sec:authorize="hasRole('ROLE_USER')">
+                <a th:href="@{'/user/book/{id}' (id=${singleObj.getId()})}"
+                   class="btn btn-success stretched-link">Резервирај</a>
             </th:block>
         </div>
     </div>

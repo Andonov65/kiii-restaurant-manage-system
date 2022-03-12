@@ -1,8 +1,10 @@
 package com.finki.wp.ugostitelskiobjekti.model;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Data
@@ -12,6 +14,9 @@ public class Rezervacija {
     private Long id;
 
     private Integer vkupnoLugje;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date bookDate;
 
     @ManyToOne
     private Klient klient;
