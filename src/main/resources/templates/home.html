@@ -12,20 +12,22 @@
 
 <div class="row row-cols-5">
     <div class="col" th:each="singleObj:${objekti}">
+
         <div><a th:href="@{/home/details/{id} (id=${singleObj.id})}">
             <img class="card-img-top" alt="Restaurant picture" th:src="*{'data:image/jpeg;base64,'+{singleObj.urlImg}}"
                  style="width: 500px;height:300px;">
 
         </a>
             <div th:text="${singleObj.imeNaObjekt}"></div>
-            <th:block>
+
+            <th:block th:if="${singleObj.shef.username} == ${#request.getRemoteUser()}">
                 <a  sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{'/admin/edit/{id}' (id=${singleObj.getId()})}"
-                   class="btn btn-sm btn-info edit-product">
+                    class="btn btn-sm btn-info edit-product">
                     <i class="fa fa-trash">Edit</i>
                 </a>
             </th:block>
 
-            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+            <th:block th:if="${singleObj.shef.username} == ${#request.getRemoteUser()}" sec:authorize="hasRole('ROLE_ADMIN')">
                 <form th:action="@{'/admin/delete/{id}' (id=${singleObj.getId()})}"
                       th:method="DELETE">
                     <button type="submit"

@@ -144,5 +144,10 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
                .collect(Collectors.toList());
     }
 
+    @Override
+    public void deleteUgostitelskiObjekt(Long id) {
+        this.ugostitelskiObjektRepositoryJPA.deleteById(id);
+    }
+
 
 }

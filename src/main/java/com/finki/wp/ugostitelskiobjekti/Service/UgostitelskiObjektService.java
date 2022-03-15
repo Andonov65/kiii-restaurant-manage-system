@@ -24,4 +24,6 @@ public interface UgostitelskiObjektService {
     Vraboten vraboti(String username,Long objId);
 
     List<UgostitelskiObjekt> imeTextContaining(String text);
+
+    void deleteUgostitelskiObjekt(Long id);
 }

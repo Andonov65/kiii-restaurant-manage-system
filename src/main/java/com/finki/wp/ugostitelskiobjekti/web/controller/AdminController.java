@@ -99,4 +99,10 @@ public class AdminController {
         model.addAttribute("bodyContent", "employeesInfo");
         return "master-template";//see dodava preku registracija posle
     }
+
+    @DeleteMapping("/delete/{id}")
+    public String deleteUgostitelskiObjekt(@PathVariable Long id){
+        this.ugostitelskiObjektService.deleteUgostitelskiObjekt(id);
+        return "redirect:/home";
+    }
 }

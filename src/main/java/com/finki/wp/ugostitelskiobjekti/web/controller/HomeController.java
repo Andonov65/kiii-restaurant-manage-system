@@ -7,9 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Base64;
 import java.util.List;
-
 @Controller
 @RequestMapping({"/home", "/"})
 public class HomeController {
@@ -22,6 +20,7 @@ public class HomeController {
 
     @GetMapping
     public String getHomePage(Model model) {
+
         List<UgostitelskiObjekt> ugostitelskiObjektList = this.ugostitelskiObjektService.findAll();
         model.addAttribute("objekti", ugostitelskiObjektList);
        model.addAttribute("bodyContent", "home");
