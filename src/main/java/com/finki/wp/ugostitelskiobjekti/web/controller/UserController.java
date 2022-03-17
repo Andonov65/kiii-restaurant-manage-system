@@ -16,29 +16,29 @@ import java.time.format.DateTimeFormatter;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-private final UgostitelskiObjektService ugostitelskiObjektService;
+    private final UgostitelskiObjektService ugostitelskiObjektService;
 
     public UserController(UgostitelskiObjektService ugostitelskiObjektService) {
         this.ugostitelskiObjektService = ugostitelskiObjektService;
     }
 
     @GetMapping("/book/{id}")
-    public String getBookinForm(Model model, @PathVariable Long id){
+    public String getBookinForm(Model model, @PathVariable Long id) {
         //vo modelot dodadi go imeto na ugostitelskiot objekt
-        UgostitelskiObjekt ugostitelskiObjekt=this.ugostitelskiObjektService.findById(id);
-        model.addAttribute("object",ugostitelskiObjekt);
-        model.addAttribute("bodyContent","bookingForm");
-return "master-template";
+        UgostitelskiObjekt ugostitelskiObjekt = this.ugostitelskiObjektService.findById(id);
+        model.addAttribute("object", ugostitelskiObjekt);
+        model.addAttribute("bodyContent", "bookingForm");
+        return "master-template";
     }
 
-    @PostMapping( "/book")
+    @PostMapping("/book")
     public String makeReservation(Model model,
-                              @RequestParam Long objectId,
-                              @RequestParam Integer numPersons,
-                              @RequestParam  String date,
-                               @RequestParam   String  time) {
+                                  @RequestParam Long objectId,
+                                  @RequestParam Integer numPersons,
+                                  @RequestParam String date,
+                                  @RequestParam String time) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-LocalDate localDate=LocalDate.parse(date,formatter);
+        LocalDate localDate = LocalDate.parse(date, formatter);
         LocalTime localTime = LocalTime.parse(time);
 
         return "redirect:/home";
