@@ -11,9 +11,9 @@
             <form th:action="@{/user/book}" th:method="POST">
                 <div>
                     <label>Угостителски објект :</label>
-                    <div class="form-control" th:text="${object.name}" name="objectName">
+                    <input class="form-control" name="objectId"  th:value="${object.id}" >
 
-                    </div>
+                    </input>
                 </div>
                 <div class="form-group">
                     <label>Датум :</label>

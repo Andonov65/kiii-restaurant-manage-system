@@ -2,12 +2,15 @@ package com.finki.wp.ugostitelskiobjekti.web.controller;
 
 import com.finki.wp.ugostitelskiobjekti.Service.UgostitelskiObjektService;
 import com.finki.wp.ugostitelskiobjekti.model.UgostitelskiObjekt;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Time;
-import java.util.Date;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Controller
 @RequestMapping("/user")
@@ -18,7 +21,7 @@ private final UgostitelskiObjektService ugostitelskiObjektService;
         this.ugostitelskiObjektService = ugostitelskiObjektService;
     }
 
-    @GetMapping("book/{id}")
+    @GetMapping("/book/{id}")
     public String getBookinForm(Model model, @PathVariable Long id){
         //vo modelot dodadi go imeto na ugostitelskiot objekt
         UgostitelskiObjekt ugostitelskiObjekt=this.ugostitelskiObjektService.findById(id);
@@ -29,11 +32,13 @@ return "master-template";
 
     @PostMapping( "/book")
     public String makeReservation(Model model,
-                              @RequestParam String objectName,
+                              @RequestParam Long objectId,
                               @RequestParam Integer numPersons,
-                              @RequestParam Date date,
-                              @RequestParam Time time) {
-        model.addAttribute("bodyContent","home");
+                              @RequestParam  String date,
+                               @RequestParam   String  time) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+LocalDate localDate=LocalDate.parse(date,formatter);
+        LocalDateTime localDateTime = LocalDateTime.parse(time);
 
         return "master-template";
     }
