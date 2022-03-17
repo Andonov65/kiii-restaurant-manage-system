@@ -4,6 +4,9 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
 
 @Entity
@@ -16,7 +19,9 @@ public class Rezervacija {
     private Integer vkupnoLugje;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date bookDate;
+    private LocalDate bookDate;
+
+    private LocalTime localTime;
 
     @ManyToOne
     private Klient klient;
