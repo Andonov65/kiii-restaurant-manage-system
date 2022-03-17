@@ -29,7 +29,7 @@ public class Rezervacija {
     @ManyToOne
     private UgostitelskiObjekt ugostitelskiObjekt;
 
-String statusRezervacija;
+private String statusRezervacija;
     public Rezervacija() {
     }
 
@@ -37,5 +37,14 @@ String statusRezervacija;
         this.vkupnoLugje = vkupnoLugje;
         this.klient = klient;
         this.ugostitelskiObjekt = ugostitelskiObjekt;
+    }
+
+    public Rezervacija(Integer vkupnoLugje, LocalDate localDate, LocalTime localTime, Klient klient, UgostitelskiObjekt ugostitelskiObjekt, String statusRezervacija) {
+        this.vkupnoLugje = vkupnoLugje;
+        this.localDate = localDate;
+        this.localTime = localTime;
+        this.klient = klient;
+        this.ugostitelskiObjekt = ugostitelskiObjekt;
+        this.statusRezervacija = statusRezervacija;
     }
 }
