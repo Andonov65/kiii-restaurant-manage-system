@@ -1,15 +1,14 @@
 package com.finki.wp.ugostitelskiobjekti.web.controller;
 
+import com.finki.wp.ugostitelskiobjekti.Service.RezervacijaService;
 import com.finki.wp.ugostitelskiobjekti.Service.UgostitelskiObjektService;
 import com.finki.wp.ugostitelskiobjekti.model.UgostitelskiObjekt;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
@@ -17,9 +16,11 @@ import java.time.format.DateTimeFormatter;
 @RequestMapping("/user")
 public class UserController {
     private final UgostitelskiObjektService ugostitelskiObjektService;
+    private final RezervacijaService rezervacijaService;
 
-    public UserController(UgostitelskiObjektService ugostitelskiObjektService) {
+    public UserController(UgostitelskiObjektService ugostitelskiObjektService, RezervacijaService rezervacijaService) {
         this.ugostitelskiObjektService = ugostitelskiObjektService;
+        this.rezervacijaService = rezervacijaService;
     }
 
     @GetMapping("/book/{id}")
@@ -42,9 +43,8 @@ public class UserController {
         LocalDate localDate = LocalDate.parse(date, formatter);
         LocalTime localTime = LocalTime.parse(time);
         //now save it to RReservations
-        //find the object first
-        //find the klient
-        //make reservation
+
+        this.rezervacijaService.makeReservation(objectId, klientUserName, numPersons, localDate, localTime);
 
 
         return "redirect:/home";

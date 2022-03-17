@@ -7,5 +7,5 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public interface RezervacijaService {
-    public Rezervacija makeReservation(Long idObject, Klient klient, Integer numPersons, LocalDate date, LocalTime time);
+    public Rezervacija makeReservation(Long idObject, String klientUserName, Integer numPersons, LocalDate date, LocalTime time);
 }
