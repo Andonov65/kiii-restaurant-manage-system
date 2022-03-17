@@ -1,10 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+<head xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
 <body>
-$END$
+
+<div class="container">
+    <div th:each="rez : ${rezervacii}">
+        <table class="table">
+            <thead>
+                <tr scope="col">Угостителски објект</tr>
+                <tr scope="col">Датум</tr>
+                <tr scope="col">Време</tr>
+                <tr scope="col"></tr>
+            </thead>
+            <tbody>
+                <tr scope="row" th:text="${rez.ugostitelskiObjekt.imeNaObjekt}"></tr>
+                <td th:text="${rez.localDate}"></td>
+                <td th:text="${rez.localTime}"></td>
+                <td > <a th:href="@{'/user/cancel/{id}' (id=${rez.getId()})}"
+                         class="btn btn-danger">Cancel</a> </td>
+            </tbody>
+        </table>
+    </div>
+</div>
+
 </body>
-</html>

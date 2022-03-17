@@ -40,7 +40,7 @@
 
         <div style="margin-top: 5%" class="d-flex justify-content-around">
             <a type="button" class="btn btn-outline-dark" href="/home">Назад</a>
-            <form th:action="@{'/home/rezerviraj/{id}' (id=${objekt.getId()})}"
+            <form sec:authorize="hasRole('ROLE_USER')" th:action="@{'/home/rezerviraj/{id}' (id=${objekt.getId()})}"
                     th:method="POST">
                 <button th:if="${objekt.vkupnoMasi} == 0" disabled class="btn btn-outline-dark">Резервирај</button>
                 <button th:if="${objekt.vkupnoMasi} > 0"  class="btn btn-outline-dark">Резервирај</button>
