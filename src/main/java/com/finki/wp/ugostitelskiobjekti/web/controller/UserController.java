@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 @Controller
@@ -38,8 +39,8 @@ return "master-template";
                                @RequestParam   String  time) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 LocalDate localDate=LocalDate.parse(date,formatter);
-        LocalDateTime localDateTime = LocalDateTime.parse(time);
+        LocalTime localTime = LocalTime.parse(time);
 
-        return "master-template";
+        return "redirect:/home";
     }
 }
