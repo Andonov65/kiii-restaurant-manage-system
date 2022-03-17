@@ -34,6 +34,7 @@ public class UserController {
     @PostMapping("/book")
     public String makeReservation(Model model,
                                   @RequestParam Long objectId,
+                                  @RequestParam String klientUserName,
                                   @RequestParam Integer numPersons,
                                   @RequestParam String date,
                                   @RequestParam String time) {
@@ -41,6 +42,11 @@ public class UserController {
         LocalDate localDate = LocalDate.parse(date, formatter);
         LocalTime localTime = LocalTime.parse(time);
         //now save it to RReservations
+        //find the object first
+        //find the klient
+        //make reservation
+
+
         return "redirect:/home";
     }
 }

@@ -7,11 +7,18 @@
 <body>
 <div class="container">
     <div class="row">
+
         <div class="col-md-5">
             <form th:action="@{/user/book}" th:method="POST">
                 <div>
+                    <label>Резервација за:</label>
+                    <label class="form-control" disabled type="text" th:text="${#request.getRemoteUser()}"></label>
+                    <input class="form-control" hidden name="klientUserName" type="text" th:value="${#request.getRemoteUser()}">
+                </div>
+                <div class="form-group">
                     <label>Угостителски објект :</label>
-                    <input class="form-control" name="objectId"  th:value="${object.id}" >
+                    <label  disabled type="text" th:text="${object.imeNaObjekt}"></label>
+                    <input  hidden class="form-control" name="objectId"  th:value="${object.id}" >
 
                     </input>
                 </div>

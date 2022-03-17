@@ -19,7 +19,7 @@ public class Rezervacija {
     private Integer vkupnoLugje;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate bookDate;
+    private LocalDate localDate;
 
     private LocalTime localTime;
 
@@ -29,7 +29,7 @@ public class Rezervacija {
     @ManyToOne
     private UgostitelskiObjekt ugostitelskiObjekt;
 
-
+String statusRezervacija;
     public Rezervacija() {
     }
 
