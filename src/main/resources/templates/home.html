@@ -25,7 +25,6 @@
                 <div class="card-header" th:text="${singleObj.imeNaObjekt}"></div>
 
                 <div class="btn-group text-center">
-
                     <div class="card-link m-1">
                         <th:block th:if="${singleObj.shef.username} == ${#request.getRemoteUser()}">
                             <a sec:authorize="hasRole('ROLE_ADMIN')"
