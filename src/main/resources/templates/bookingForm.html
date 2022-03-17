@@ -3,17 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Booking form</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
 </head>
 <body>
 <div class="container">
     <div class="row">
-
-        <div class="col-md-5">
+        <div class="col-md-5 m-4">
             <form th:action="@{/user/book}" th:method="POST">
-                <div>
+                <img th:src="*{'data:image/jpeg;base64,'+{object.urlImg}}" class="img-fluid" alt="Responsive image">
+                <div class="form-group">
                     <label>Резервација за:</label>
-                    <label class="form-control" disabled type="text" th:text="${#request.getRemoteUser()}"></label>
-                    <input class="form-control" hidden name="klientUserName" type="text" th:value="${#request.getRemoteUser()}">
+                    <label  disabled type="text" th:text="${#request.getRemoteUser()}"></label>
+                    <input  class="form-control"  hidden name="klientUserName" type="text" th:value="${#request.getRemoteUser()}">
                 </div>
                 <div class="form-group">
                     <label>Угостителски објект :</label>
@@ -24,13 +27,22 @@
                 </div>
                 <div class="form-group">
                     <label>Датум :</label>
-                    <input type="date" class="form-control" required name="date">
+                    <input id="date_picker" type="date" class="form-control" required name="date">
+                    <script >
+                        var today = new Date();
+                        var dd = String(today.getDate()).padStart(2, '0');
+                        var mm = String(today.getMonth() + 1).padStart(2, '0');
+                        var yyyy = today.getFullYear();
+
+                        today = yyyy + '-' + mm + '-' + dd;
+                        $('#date_picker').attr('min',today);
+                    </script>
                 </div>
 
                 <div class="form-group">
                     <label>Време :</label>
                     <input type="time" id="appt"
-                           min="09:00" max="21:00"  class="form-control" step="60" name="time">
+                           min="08:00" max="21:00"  class="form-control"  name="time">
                 </div>
                 <div class="form-group">
                     <label>Број на луѓе :</label>
