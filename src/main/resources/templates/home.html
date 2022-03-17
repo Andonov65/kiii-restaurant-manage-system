@@ -5,43 +5,57 @@
 </head>
 <body>
 <th:block>
-    <form action="/admin/add"  sec:authorize="hasRole('ROLE_ADMIN')">
+    <form action="/admin/add" sec:authorize="hasRole('ROLE_ADMIN')">
         <button style="margin: 20px" class="btn btn-outline-dark" type="submit">Додади угостителски објект</button>
     </form>
 </th:block>
 
-<div class="row row-cols-5">
-    <div class="col" th:each="singleObj:${objekti}">
+<div class="row">
 
-        <div><a th:href="@{/home/details/{id} (id=${singleObj.id})}">
-            <img class="card-img-top" alt="Restaurant picture" th:src="*{'data:image/jpeg;base64,'+{singleObj.urlImg}}"
-                 style="width: 500px;height:300px;">
+    <div class="col-3 m-4" th:each="singleObj:${objekti}">
 
-        </a>
-            <div th:text="${singleObj.imeNaObjekt}"></div>
+        <div class="card">
+            <div>
+                <div class="card-img-top">
+                    <a th:href="@{/home/details/{id} (id=${singleObj.id})}">
+                        <img class="card-img-top" alt="Restaurant picture"
+                             th:src="*{'data:image/jpeg;base64,'+{singleObj.urlImg}}">
+                    </a>
+                </div>
+                <div class="card-header" th:text="${singleObj.imeNaObjekt}"></div>
 
-            <th:block th:if="${singleObj.shef.username} == ${#request.getRemoteUser()}">
-                <a  sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{'/admin/edit/{id}' (id=${singleObj.getId()})}"
-                    class="btn btn-sm btn-info edit-product">
-                    <i class="fa fa-trash">Edit</i>
-                </a>
-            </th:block>
+                <div class="btn-group text-center">
 
-            <th:block th:if="${singleObj.shef.username} == ${#request.getRemoteUser()}" sec:authorize="hasRole('ROLE_ADMIN')">
-                <form th:action="@{'/admin/delete/{id}' (id=${singleObj.getId()})}"
-                      th:method="DELETE">
-                    <button type="submit"
-                            class="btn btn-sm btn-danger delete-product">
-                        <i class="fa fa-trash">Delete</i>
-                    </button>
-                </form>
-            </th:block>
-
-<!--            Only users can make reservations-->
-            <th:block sec:authorize="hasRole('ROLE_USER')">
-                <a th:href="@{'/user/book/{id}' (id=${singleObj.getId()})}"
-                   class="btn btn-success stretched-link">Резервирај</a>
-            </th:block>
+                    <div class="card-link m-1">
+                        <th:block th:if="${singleObj.shef.username} == ${#request.getRemoteUser()}">
+                            <a sec:authorize="hasRole('ROLE_ADMIN')"
+                               th:href="@{'/admin/edit/{id}' (id=${singleObj.getId()})}"
+                               class="btn btn-sm btn-info edit-product">
+                                <i>Edit</i>
+                            </a>
+                        </th:block>
+                    </div>
+                    <div class="card-link m-1">
+                        <th:block th:if="${singleObj.shef.username} == ${#request.getRemoteUser()}"
+                                  sec:authorize="hasRole('ROLE_ADMIN')">
+                            <form th:action="@{'/admin/delete/{id}' (id=${singleObj.getId()})}"
+                                  th:method="DELETE">
+                                <button type="submit"
+                                        class="btn btn-sm btn-danger delete-product">
+                                    <i>Delete</i>
+                                </button>
+                            </form>
+                        </th:block>
+                    </div>
+                    <div class="card-link m-1">
+                        <!--            Only users can make reservations-->
+                        <th:block sec:authorize="hasRole('ROLE_USER')">
+                            <a th:href="@{'/user/book/{id}' (id=${singleObj.getId()})}"
+                               class="btn btn-success stretched-link">Резервирај</a>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
