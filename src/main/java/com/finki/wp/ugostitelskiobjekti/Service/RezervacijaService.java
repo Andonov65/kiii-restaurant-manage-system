@@ -5,7 +5,11 @@ import com.finki.wp.ugostitelskiobjekti.model.Rezervacija;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 public interface RezervacijaService {
-    public Rezervacija makeReservation(Long idObject, String klientUserName, Integer numPersons, LocalDate date, LocalTime time);
+     Rezervacija makeReservation(Long idObject, String klientUserName, Integer numPersons, LocalDate date, LocalTime time);
+
+     List<Rezervacija> showReservations(String username);
+     List<Rezervacija> showReservationsEmp(String username);
 }

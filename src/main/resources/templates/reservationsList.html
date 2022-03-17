@@ -4,32 +4,45 @@
 </head>
 <body>
 
-<div class="container">
-    <div th:each="rez : ${rezervacii}">
-        <table class="table">
-            <thead>
-                <tr sec:authorize="hasRole('ROLE_EMPLOYEE')" scope="col">Име</tr>
-                <tr scope="col">Угостителски објект</tr>
-                <tr scope="col">Датум</tr>
-                <tr scope="col">Време</tr>
-                <tr scope="col"></tr>
-            </thead>
-            <tbody>
-                <tr scope="row" th:text="${rez.ugostitelskiObjekt.imeNaObjekt}"></tr>
-                <td sec:authorize="hasRole('ROLE_EMPLOYEE')" th:text="${rez.klient.username}"></td>
-                <td th:text="${rez.localDate}"></td>
-                <td th:text="${rez.localTime}"></td>
+<div class="container mb-4">
+    <div class="row">
+        <div class="col-12" >
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
 
-                <td >
-                    <a sec:authorize="hasRole('ROLE_EMPLOYEE')"
-                       th:href="@{'/user/accept/{id}' (id=${rez.getId()})}"
-                       class="btn btn-success">Потврди</a>
-                    <a th:href="@{'/user/cancel/{id}' (id=${rez.getId()})}"
-                         class="btn btn-danger">Откажи</a>
-                </td>
-            </tbody>
-        </table>
+                        <th sec:authorize="hasRole('ROLE_EMPLOYEE')" scope="col">Име</th>
+
+                        <th scope="col">Угостителски објект</th>
+                        <th scope="col">Датум</th>
+                        <th scope="col">Време</th>
+                        <th scope="col"></th>
+                    </tr>
+
+                    </thead>
+                    <tbody>
+                    <div th:each="rez : ${rezervacii}">
+                        <tr scope="row" >
+                            <td sec:authorize="hasRole('ROLE_EMPLOYEE')" th:text="${rez.klient.username}"></td>
+                            <td th:text="${rez.ugostitelskiObjekt.imeNaObjekt}"></td>
+                            <td th:text="${rez.localDate}"></td>
+                            <td th:text="${rez.localTime}"></td>
+
+                            <td>
+                                <a sec:authorize="hasRole('ROLE_EMPLOYEE')"
+                                   th:href="@{'/user/accept/{id}' (id=${rez.getId()})}"
+                                   class="btn btn-success">Потврди</a>
+                                <a th:href="@{'/user/cancel/{id}' (id=${rez.getId()})}"
+                                   class="btn btn-danger">Откажи</a>
+                            </td>
+                        </tr>
+
+                    </div>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
-
 </body>

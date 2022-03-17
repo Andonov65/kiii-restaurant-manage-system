@@ -49,4 +49,22 @@ public class UserController {
 
         return "redirect:/home";
     }
+
+    @GetMapping("/reservations")
+    public String showReservations(Model model, @RequestParam String username){
+        model.addAttribute("rezervacii", this.rezervacijaService.showReservations(username));
+        model.addAttribute("bodyContent", "reservationsList");
+
+        return "master-template";
+    }
+
+    @GetMapping("/reservationsEmployee")
+    public String showReservationsVraboten(Model model, @RequestParam String username){
+        model.addAttribute("rezervacii", this.rezervacijaService.showReservations(username));
+        model.addAttribute("bodyContent", "reservationsList");
+
+        return "master-template";
+    }
+
+
 }

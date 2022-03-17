@@ -10,7 +10,10 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarsExampleDefault">
                 <ul class="navbar-nav m-auto">
                     <li class="nav-item m-auto">
-                        <a class="nav-link active" sec:authorize="hasRole('ROLE_USER')" href="/user/reservations">Мои резервации</a>
+                        <form action="/user/reservations" method="get">
+                            <input type="hidden" th:value="${#request.getRemoteUser()}" name="username">
+                            <button class="btn btn-dark" sec:authorize="hasAnyRole('ROLE_USER','ROLE_EMPLOYEE')" >Мои резервации</button>
+                        </form>
                     </li>
                     <li class="nav-item m-auto" sec:authorize="hasRole('ROLE_ADMIN')">
                         <a class="nav-link active" href="/admin/employees">Вработени</a>
@@ -21,9 +24,9 @@
                     </li>
 
 <!--      TODO          -->
-                    <li class="nav-item m-auto" sec:authorize="hasRole('ROLE_EMPLOYEE')">
-                        <a class="nav-link active" href="/user/reservations">Резервации</a>
-                    </li>
+<!--                    <li class="nav-item m-auto" sec:authorize="hasRole('ROLE_EMPLOYEE')">-->
+<!--                        <a class="nav-link active" href="/user/reservations">Резервации</a>-->
+<!--                    </li>-->
 
                 </ul>
 
