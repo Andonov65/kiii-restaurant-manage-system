@@ -8,6 +8,7 @@
     <div th:each="rez : ${rezervacii}">
         <table class="table">
             <thead>
+                <tr sec:authorize="hasRole('ROLE_EMPLOYEE')" scope="col">Име</tr>
                 <tr scope="col">Угостителски објект</tr>
                 <tr scope="col">Датум</tr>
                 <tr scope="col">Време</tr>
@@ -15,10 +16,17 @@
             </thead>
             <tbody>
                 <tr scope="row" th:text="${rez.ugostitelskiObjekt.imeNaObjekt}"></tr>
+                <td sec:authorize="hasRole('ROLE_EMPLOYEE')" th:text="${rez.klient.username}"></td>
                 <td th:text="${rez.localDate}"></td>
                 <td th:text="${rez.localTime}"></td>
-                <td > <a th:href="@{'/user/cancel/{id}' (id=${rez.getId()})}"
-                         class="btn btn-danger">Cancel</a> </td>
+
+                <td >
+                    <a sec:authorize="hasRole('ROLE_EMPLOYEE')"
+                       th:href="@{'/user/accept/{id}' (id=${rez.getId()})}"
+                       class="btn btn-success">Потврди</a>
+                    <a th:href="@{'/user/cancel/{id}' (id=${rez.getId()})}"
+                         class="btn btn-danger">Откажи</a>
+                </td>
             </tbody>
         </table>
     </div>
