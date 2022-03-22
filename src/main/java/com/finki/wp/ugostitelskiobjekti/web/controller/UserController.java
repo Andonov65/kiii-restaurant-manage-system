@@ -58,13 +58,14 @@ public class UserController {
         return "master-template";
     }
 
-    @GetMapping("/reservationsEmployee")
-    public String showReservationsVraboten(Model model, @RequestParam String username){
-        model.addAttribute("rezervacii", this.rezervacijaService.showReservations(username));
-        model.addAttribute("bodyContent", "reservationsList");
-
-        return "master-template";
-    }
+//    @GetMapping("/reservationsEmployee")
+//    public String showReservationsVraboten(Model model, @RequestParam String username){
+//
+//        model.addAttribute("rezervacii", this.rezervacijaService.showReservations(username));
+//        model.addAttribute("bodyContent", "reservationsList");
+//
+//        return "master-template";
+//    }
 
     @PostMapping("/cancel/{id}")
     public String cancelReservation(@PathVariable Long id, @RequestParam String username){
@@ -72,6 +73,15 @@ public class UserController {
 
         return "redirect:/user/reservations?username=" + username;
     }
+
+    @PostMapping("/accept/{id}")
+    public String acceptReservation(@PathVariable Long id, @RequestParam String username){
+        this.rezervacijaService.acceptReservation(id);
+
+        return "redirect:/user/reservations?username=" + username;
+    }
+
+
 
 
 }

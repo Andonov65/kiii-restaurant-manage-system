@@ -27,23 +27,29 @@
                     </thead>
                     <tbody>
                     <div th:each="rez : ${rezervacii}">
-                        <tr scope="row" >
-                            <td sec:authorize="hasRole('ROLE_EMPLOYEE')" th:text="${rez.klient.username}"></td>
-                            <td th:text="${rez.ugostitelskiObjekt.imeNaObjekt}"></td>
-                            <td th:text="${rez.localDate}"></td>
-                            <td th:text="${rez.localTime}"></td>
+                        <div th:if="${rez.getStatusRezervacija()} == 'zakazhana' ">
+                            <tr scope="row" >
+                                <td sec:authorize="hasRole('ROLE_EMPLOYEE')" th:text="${rez.klient.username}"></td>
+                                <td th:text="${rez.ugostitelskiObjekt.imeNaObjekt}"></td>
+                                <td th:text="${rez.localDate}"></td>
+                                <td th:text="${rez.localTime}"></td>
 
-                            <td>
-                                <a sec:authorize="hasRole('ROLE_EMPLOYEE')"
-                                   th:href="@{'/user/accept/{id}' (id=${rez.getId()})}"
-                                   class="btn btn-success">Потврди</a>
-                                <form th:action="@{'/user/cancel/{id}' (id=${rez.getId()})}" method="POST">
-                                    <input type="hidden" th:value="${#request.getRemoteUser()}" name="username">
-                                    <button
-                                            class="btn btn-danger">Откажи</button>
-                                </form>
-                            </td>
-                        </tr>
+                                <td>
+                                    <form sec:authorize="hasRole('ROLE_EMPLOYEE')"
+                                          th:action="@{'/user/accept/{id}' (id=${rez.getId()})}" method="POST">
+                                        <input type="hidden" th:value="${#request.getRemoteUser()}" name="username">
+                                        <button
+                                                class="btn btn-success">Потврди</button>
+                                    </form>
+                                    <form th:action="@{'/user/cancel/{id}' (id=${rez.getId()})}" method="POST">
+                                        <input type="hidden" th:value="${#request.getRemoteUser()}" name="username">
+                                        <button
+                                                class="btn btn-danger">Откажи</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </div>
+
 
                     </div>
                     </tbody>

@@ -11,7 +11,8 @@ public interface RezervacijaService {
      Rezervacija makeReservation(Long idObject, String klientUserName, Integer numPersons, LocalDate date, LocalTime time);
 
      List<Rezervacija> showReservations(String username);
-     List<Rezervacija> showReservationsEmp(String username);
+
+     void acceptReservation(Long id);
 
      void deleteReservation(Long id);
 }
