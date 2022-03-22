@@ -12,4 +12,6 @@ public interface RezervacijaService {
 
      List<Rezervacija> showReservations(String username);
      List<Rezervacija> showReservationsEmp(String username);
+
+     void deleteReservation(Long id);
 }

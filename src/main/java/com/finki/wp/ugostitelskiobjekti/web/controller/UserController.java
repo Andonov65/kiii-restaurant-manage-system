@@ -66,5 +66,12 @@ public class UserController {
         return "master-template";
     }
 
+    @PostMapping("/cancel/{id}")
+    public String cancelReservation(@PathVariable Long id, @RequestParam String username){
+        this.rezervacijaService.deleteReservation(id);
+
+        return "redirect:/user/reservations?username=" + username;
+    }
+
 
 }

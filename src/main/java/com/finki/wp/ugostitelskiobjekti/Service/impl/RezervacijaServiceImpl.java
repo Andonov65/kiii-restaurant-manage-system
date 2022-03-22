@@ -54,4 +54,9 @@ public class RezervacijaServiceImpl implements RezervacijaService {
         return null;
 
     }
+
+    @Override
+    public void deleteReservation(Long id) {
+        this.rezervacijaRepositoryJPA.deleteById(id);
+    }
 }
