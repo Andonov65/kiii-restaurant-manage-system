@@ -11,6 +11,7 @@ import com.finki.wp.ugostitelskiobjekti.repositories.UgostitelskiObjektRepositor
 import com.finki.wp.ugostitelskiobjekti.repositories.VrabotenRepositoryJPA;
 import org.springframework.stereotype.Service;
 
+import java.beans.Transient;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -33,6 +34,7 @@ public class RezervacijaServiceImpl implements RezervacijaService {
         this.vrabotenRepositoryJPA = vrabotenRepositoryJPA;
     }
 
+
     @Override
     public Rezervacija makeReservation(Long idObject, String klientUserName, Integer numPersons, LocalDate date, LocalTime time) {
         //find the object
@@ -46,6 +48,7 @@ public class RezervacijaServiceImpl implements RezervacijaService {
         return this.rezervacijaRepositoryJPA.save(rezervacija);
 
     }
+
 
     @Override
     public List<Rezervacija> showReservations(String username) {
@@ -65,6 +68,21 @@ public class RezervacijaServiceImpl implements RezervacijaService {
                 .collect(Collectors.toList());
     }
 
+
+
+    @Override
+    public List<Rezervacija> showDoneReservations(Long objectId) {
+
+            Optional<UgostitelskiObjekt> ugostitelskiObjekt = this.ugostitelskiObjektRepositoryJPA.findById(objectId);
+
+            return ugostitelskiObjekt.get().getRezervacijaList().stream()
+                    .filter(o -> o.getStatusRezervacija().equals("realizirana"))
+                    .collect(Collectors.toList());
+
+
+    }
+
+
     @Override
     public void acceptReservation(Long id) {
         Rezervacija rezervacija = this.rezervacijaRepositoryJPA.findById(id).get();
@@ -74,8 +92,14 @@ public class RezervacijaServiceImpl implements RezervacijaService {
     }
 
 
+
     @Override
     public void deleteReservation(Long id) {
+
+        this.ugostitelskiObjektRepositoryJPA.findAll()
+                .stream()
+                .anyMatch(i -> i.getRezervacijaList().removeIf(o -> o.getId().equals(id)));
+
         this.rezervacijaRepositoryJPA.deleteById(id);
     }
 

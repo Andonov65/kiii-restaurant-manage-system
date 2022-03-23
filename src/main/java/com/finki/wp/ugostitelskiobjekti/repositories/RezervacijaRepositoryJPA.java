@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RezervacijaRepositoryJPA extends JpaRepository<Rezervacija, Long> {
+    void deleteAllByUgostitelskiObjektId(Long id);
 }

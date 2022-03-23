@@ -40,14 +40,14 @@ public class HomeController {
         return "master-template";
     }
 
-    @PostMapping("/rezerviraj/{id}")
-    public String makeReservation(@PathVariable Long id, Model model){
-        this.ugostitelskiObjektService.rezerviraj(id);
-        model.addAttribute("objekti", this.ugostitelskiObjektService.findAll());
-        model.addAttribute("bodyContent", "home");
-
-        return "redirect:/home";
-    }
+//    @PostMapping("/rezerviraj/{id}")
+//    public String makeReservation(@PathVariable Long id, Model model){
+//        this.ugostitelskiObjektService.rezerviraj(id);
+//        model.addAttribute("objekti", this.ugostitelskiObjektService.findAll());
+//        model.addAttribute("bodyContent", "home");
+//
+//        return "redirect:/home";
+//    }
 
     @GetMapping("/search")
     public String searchObject(@RequestParam String textSearch, Model model){

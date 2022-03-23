@@ -1,6 +1,8 @@
 package com.finki.wp.ugostitelskiobjekti.model;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -10,7 +12,8 @@ import java.time.LocalTime;
 import java.util.Date;
 
 @Entity
-@Data
+@Setter
+@Getter
 public class Rezervacija {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +28,7 @@ public class Rezervacija {
 
     @ManyToOne
     private Klient klient;
+
 
     @ManyToOne
     private UgostitelskiObjekt ugostitelskiObjekt;

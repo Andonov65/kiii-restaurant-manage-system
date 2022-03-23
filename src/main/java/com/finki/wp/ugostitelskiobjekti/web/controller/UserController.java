@@ -3,6 +3,7 @@ package com.finki.wp.ugostitelskiobjekti.web.controller;
 import com.finki.wp.ugostitelskiobjekti.Service.RezervacijaService;
 import com.finki.wp.ugostitelskiobjekti.Service.UgostitelskiObjektService;
 import com.finki.wp.ugostitelskiobjekti.model.UgostitelskiObjekt;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -82,6 +83,14 @@ public class UserController {
     }
 
 
+    //treba da napravam tuka kontroler i da stavam link do history html
+    //servisot mi e napraven
+    @GetMapping("/history")
+    public String showHistoryReservations( @RequestParam String username, Model model){
+        model.addAttribute("rezervacii", this.rezervacijaService.showDoneReservations(this.ugostitelskiObjektService.findByEmployee(username).get().getId()));
+        model.addAttribute("bodyContent", "historyReservations");
 
+        return "master-template";
+    }
 
 }

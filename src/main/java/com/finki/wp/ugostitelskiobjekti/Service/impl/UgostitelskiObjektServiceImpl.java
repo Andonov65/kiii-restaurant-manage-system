@@ -4,11 +4,8 @@ import com.finki.wp.ugostitelskiobjekti.model.Grad;
 import com.finki.wp.ugostitelskiobjekti.model.Shef;
 import com.finki.wp.ugostitelskiobjekti.model.UgostitelskiObjekt;
 import com.finki.wp.ugostitelskiobjekti.model.Vraboten;
-import com.finki.wp.ugostitelskiobjekti.repositories.GradRepositoryJPA;
-import com.finki.wp.ugostitelskiobjekti.repositories.ShefRepositoryJPA;
-import com.finki.wp.ugostitelskiobjekti.repositories.UgostitelskiObjektRepositoryJPA;
+import com.finki.wp.ugostitelskiobjekti.repositories.*;
 import com.finki.wp.ugostitelskiobjekti.Service.UgostitelskiObjektService;
-import com.finki.wp.ugostitelskiobjekti.repositories.VrabotenRepositoryJPA;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,10 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.beans.Transient;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,13 +22,17 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
     private final GradRepositoryJPA gradRepositoryJPA;
     private final ShefRepositoryJPA shefRepositoryJPA;
     private final VrabotenRepositoryJPA vrabotenRepositoryJPA;
+    private final RezervacijaRepositoryJPA rezervacijaRepositoryJPA;
+    private final UserRepositoryJPA userRepositoryJPA;
 
 
-    public UgostitelskiObjektServiceImpl(UgostitelskiObjektRepositoryJPA ugostitelskiObjektRepositoryJPA, GradRepositoryJPA gradRepositoryJPA, ShefRepositoryJPA shefRepositoryJPA, VrabotenRepositoryJPA vrabotenRepositoryJPA) {
+    public UgostitelskiObjektServiceImpl(UgostitelskiObjektRepositoryJPA ugostitelskiObjektRepositoryJPA, GradRepositoryJPA gradRepositoryJPA, ShefRepositoryJPA shefRepositoryJPA, VrabotenRepositoryJPA vrabotenRepositoryJPA, RezervacijaRepositoryJPA rezervacijaRepositoryJPA, UserRepositoryJPA userRepositoryJPA) {
         this.ugostitelskiObjektRepositoryJPA = ugostitelskiObjektRepositoryJPA;
         this.gradRepositoryJPA = gradRepositoryJPA;
         this.shefRepositoryJPA = shefRepositoryJPA;
         this.vrabotenRepositoryJPA = vrabotenRepositoryJPA;
+        this.rezervacijaRepositoryJPA = rezervacijaRepositoryJPA;
+        this.userRepositoryJPA = userRepositoryJPA;
     }
 
 
@@ -50,16 +48,16 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
 
 
 
-    @Override
-    public UgostitelskiObjekt rezerviraj(Long id) {
-        UgostitelskiObjekt ugostitelskiObjekt = findById(id);
-
-        if (ugostitelskiObjekt.getVkupnoMasi() != 0) {
-            ugostitelskiObjekt.setVkupnoMasi(ugostitelskiObjekt.getVkupnoMasi() - 1);
-            this.ugostitelskiObjektRepositoryJPA.save(ugostitelskiObjekt);
-        }
-        return ugostitelskiObjekt;
-    }
+//    @Override
+//    public UgostitelskiObjekt rezerviraj(Long id) {
+//        UgostitelskiObjekt ugostitelskiObjekt = findById(id);
+//
+//        if (ugostitelskiObjekt.getVkupnoMasi() != 0) {
+//            ugostitelskiObjekt.setVkupnoMasi(ugostitelskiObjekt.getVkupnoMasi() - 1);
+//            this.ugostitelskiObjektRepositoryJPA.save(ugostitelskiObjekt);
+//        }
+//        return ugostitelskiObjekt;
+//    }
     //tag + if
     @Override
     @Transactional
@@ -97,6 +95,13 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
             e.printStackTrace();
         }
         this.ugostitelskiObjektRepositoryJPA.save(ugostitelskiObjekt);
+    }
+
+    @Override
+    public Optional<UgostitelskiObjekt> findByEmployee(String username) {
+        return this.ugostitelskiObjektRepositoryJPA.findAll()
+                .stream().filter(i -> i.getVrabotenList().stream().anyMatch(o -> o.getUsername().equals(username)))
+                .findFirst();
     }
 
 
@@ -144,8 +149,21 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
                .collect(Collectors.toList());
     }
 
+    @Transactional
     @Override
     public void deleteUgostitelskiObjekt(Long id) {
+       this.rezervacijaRepositoryJPA.deleteAllByUgostitelskiObjektId(id);
+        List<UgostitelskiObjekt> ugostitelskiObjektList =this.ugostitelskiObjektRepositoryJPA.findAll()
+                .stream().filter(i -> i.getId().equals(id))
+                .collect(Collectors.toList());
+
+        ugostitelskiObjektList
+                .forEach(i -> i.getVrabotenList()
+                        .forEach(o ->{
+                            userRepositoryJPA.deleteByUsername(o.getUsername());
+                                    vrabotenRepositoryJPA.deleteByUsername(o.getUsername());
+                        } ));
+
         this.ugostitelskiObjektRepositoryJPA.deleteById(id);
     }
 

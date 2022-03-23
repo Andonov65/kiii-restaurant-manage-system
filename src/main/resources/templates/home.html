@@ -50,7 +50,7 @@
                         <!--            Only users can make reservations-->
                         <th:block sec:authorize="hasRole('ROLE_USER')">
                             <a th:href="@{'/user/book/{id}' (id=${singleObj.getId()})}"
-                               class="btn btn-success stretched-link">Резервирај</a>
+                               class="btn btn-success">Резервирај</a>
                         </th:block>
                     </div>
                 </div>

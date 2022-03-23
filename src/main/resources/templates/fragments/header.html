@@ -18,6 +18,12 @@
                             <button class="btn btn-dark" sec:authorize="hasAnyRole('ROLE_USER','ROLE_EMPLOYEE')" >Мои резервации</button>
                         </form>
                     </li>
+                    <li sec:authorize="hasRole('ROLE_EMPLOYEE')">
+                        <form th:action="@{'/user/history/{id}' (id=${objekt})}" method="get">
+                            <input type="hidden" th:value="${#request.getRemoteUser()}" name="username">
+                            <button  class="btn btn-dark">Историјат</button>
+                        </form>
+                    </li>
                     <li class="nav-item m-auto" sec:authorize="hasRole('ROLE_ADMIN')">
                         <a class="nav-link active" href="/admin/employees">Вработени</a>
                     </li>

@@ -15,5 +15,4 @@ public interface UgostitelskiObjektRepositoryJPA extends JpaRepository<Ugostitel
     List<UgostitelskiObjekt> getAllByShef_Username(String username);
     List<UgostitelskiObjekt> getAllByShef(Shef shef);
 
-
 }

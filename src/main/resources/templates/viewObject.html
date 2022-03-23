@@ -11,7 +11,7 @@
         <div class="d-flex justify-content-between">
             <div class="col-md-5">
                 <img class="form-group"
-                     th:src="*{'data:image/jpeg;base64,'+{objekt.urlImg}}" style="width: 500px;height:300px;">
+                     th:src="*{'data:image/jpeg;base64,'+ {objekt.urlImg}}" style="width: 500px;height:300px;">
             </div>
             <div class="col-md-5">
                 <div class="form-group">
@@ -27,7 +27,7 @@
                     <label class="form-control" th:text="${objekt.grad.imeGrad}"></label>
                 </div>
                 <div class="form-group">
-                    <label>Слободни маси во објектот: </label>
+                    <label>Маси во објектот: </label>
                     <label class="label label-default" id="masi" th:text="${objekt.vkupnoMasi}"></label>
                 </div>
 
@@ -40,11 +40,18 @@
 
         <div style="margin-top: 5%" class="d-flex justify-content-around">
             <a type="button" class="btn btn-outline-dark" href="/home">Назад</a>
-            <form sec:authorize="hasRole('ROLE_USER')" th:action="@{'/home/rezerviraj/{id}' (id=${objekt.getId()})}"
-                    th:method="POST">
-                <button th:if="${objekt.vkupnoMasi} == 0" disabled class="btn btn-outline-dark">Резервирај</button>
-                <button th:if="${objekt.vkupnoMasi} > 0"  class="btn btn-outline-dark">Резервирај</button>
-            </form>
+
+            <a sec:authorize="hasRole('ROLE_USER')" th:href="@{'/user/book/{id}' (id=${objekt.getId()})}"
+                   class="btn btn-success" >
+                Резервирај
+            </a>
+
+
+<!--            <form sec:authorize="hasRole('ROLE_USER')" th:action="@{'/home/rezerviraj/{id}' (id=${objekt.getId()})}"-->
+<!--                    th:method="POST">-->
+<!--                <button th:if="${objekt.vkupnoMasi} == 0" disabled class="btn btn-outline-dark">Резервирај</button>-->
+<!--                <button th:if="${objekt.vkupnoMasi} > 0"  class="btn btn-outline-dark">Резервирај</button>-->
+<!--            </form>-->
         </div>
     </div>
 </div>
