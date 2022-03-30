@@ -10,6 +10,7 @@ import com.finki.wp.ugostitelskiobjekti.repositories.RezervacijaRepositoryJPA;
 import com.finki.wp.ugostitelskiobjekti.repositories.UgostitelskiObjektRepositoryJPA;
 import com.finki.wp.ugostitelskiobjekti.repositories.VrabotenRepositoryJPA;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.beans.Transient;
 import java.time.LocalDate;
@@ -50,6 +51,7 @@ public class RezervacijaServiceImpl implements RezervacijaService {
     }
 
 
+    @Transactional
     @Override
     public List<Rezervacija> showReservations(String username) {
         if(this.vrabotenRepositoryJPA.findByUsername(username) != null){

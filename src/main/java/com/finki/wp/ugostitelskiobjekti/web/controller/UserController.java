@@ -59,14 +59,6 @@ public class UserController {
         return "master-template";
     }
 
-//    @GetMapping("/reservationsEmployee")
-//    public String showReservationsVraboten(Model model, @RequestParam String username){
-//
-//        model.addAttribute("rezervacii", this.rezervacijaService.showReservations(username));
-//        model.addAttribute("bodyContent", "reservationsList");
-//
-//        return "master-template";
-//    }
 
     @PostMapping("/cancel/{id}")
     public String cancelReservation(@PathVariable Long id, @RequestParam String username){
@@ -83,8 +75,7 @@ public class UserController {
     }
 
 
-    //treba da napravam tuka kontroler i da stavam link do history html
-    //servisot mi e napraven
+
     @GetMapping("/history")
     public String showHistoryReservations( @RequestParam String username, Model model){
         model.addAttribute("rezervacii", this.rezervacijaService.showDoneReservations(this.ugostitelskiObjektService.findByEmployee(username).get().getId()));

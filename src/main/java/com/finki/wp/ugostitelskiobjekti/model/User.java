@@ -30,11 +30,7 @@ public class User implements UserDetails {
 
     String telefeonskiBroj;
 
-    //    @OneToMany(mappedBy = "user" ,fetch = FetchType.EAGER)
-//    private List<ShoppingCart> carts;
-//za eden korisnik negovute koshnichki
-    //eden user kon povekje ccart objekti
-    //mappedBy = deka e obratno od kolanata user
+
     private boolean isAccountNonExpired = true;
     private boolean isAccountNonLocked = true;
     private boolean isCredentialsNonExpired = true;

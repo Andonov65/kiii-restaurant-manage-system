@@ -5,13 +5,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Setter
 @Getter
-public class UgostitelskiObjekt {
+public class UgostitelskiObjekt implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,17 +45,7 @@ public class UgostitelskiObjekt {
     }
 
 
-    public UgostitelskiObjekt(String imeNaObjekt, String adresa, String opis,  String urlImg, Integer vkupnoMasi, Grad grad, Shef shef) {
-        this.imeNaObjekt = imeNaObjekt;
-        this.vkupnoMasi = vkupnoMasi;
-        this.adresa = adresa;
-        this.opis = opis;
-        this.urlImg = urlImg;
-        this.rezervacijaList = new ArrayList<>();
-        this.grad = grad;
-        this.shef = shef;
-        this.vrabotenList = new ArrayList<>();
-    }
+
     public UgostitelskiObjekt(String imeNaObjekt, String adresa, String opis, Integer vkupnoMasi, Grad grad, Shef shef) {
         this.imeNaObjekt = imeNaObjekt;
         this.vkupnoMasi = vkupnoMasi;

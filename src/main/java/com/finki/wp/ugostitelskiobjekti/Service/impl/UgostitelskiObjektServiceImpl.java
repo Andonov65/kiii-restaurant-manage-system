@@ -118,11 +118,11 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
        return this.ugostitelskiObjektRepositoryJPA.getAllByShef(shef);
     }
     //ako ne kje go koristime ova !
-@Transactional
+    @Transactional
     @Override
     public List<Vraboten> findAllEmployeesByShef(Shef shef) {
         List<UgostitelskiObjekt> ugostitelskiObjektList = findAllByShefUserName(shef);
-//        return ugostitelskiObjektList.stream().map(e -> e.getVrabotenList()).collect(Collectors.toList());
+
         List<Vraboten> vrabotenList = new ArrayList<>();
         ugostitelskiObjektList.stream().forEach(u -> {
             vrabotenList.addAll(u.getVrabotenList());
@@ -137,6 +137,8 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
         Vraboten v = this.vrabotenRepositoryJPA.findByUsername(username);
         UgostitelskiObjekt ugostitelskiObjekt = this.ugostitelskiObjektRepositoryJPA.findById(objId).get();
         ugostitelskiObjekt.getVrabotenList().add(v);
+        v.setUgostitelskiObjekt(ugostitelskiObjekt);
+        this.vrabotenRepositoryJPA.save(v);
         this.ugostitelskiObjektRepositoryJPA.save(ugostitelskiObjekt);
         return v;
 

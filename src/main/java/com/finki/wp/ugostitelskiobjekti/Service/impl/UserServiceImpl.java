@@ -6,18 +6,13 @@ import com.finki.wp.ugostitelskiobjekti.model.*;
 import com.finki.wp.ugostitelskiobjekti.model.exceptions.InvalidArgumentException;
 import com.finki.wp.ugostitelskiobjekti.model.exceptions.PasswordDoNotMatchException;
 import com.finki.wp.ugostitelskiobjekti.model.exceptions.UsernameExistsException;
-import com.finki.wp.ugostitelskiobjekti.repositories.KlientRepositoryJPA;
-import com.finki.wp.ugostitelskiobjekti.repositories.ShefRepositoryJPA;
-import com.finki.wp.ugostitelskiobjekti.repositories.UserRepositoryJPA;
-import com.finki.wp.ugostitelskiobjekti.repositories.VrabotenRepositoryJPA;
+import com.finki.wp.ugostitelskiobjekti.repositories.*;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -26,14 +21,16 @@ public class UserServiceImpl implements UserService {
     //dopolnitelno i za pass passfordEncoder
     private final PasswordEncoder passwordEncoder;
 
+    private final UgostitelskiObjektRepositoryJPA ugostitelskiObjektRepositoryJPA;
 
     private final ShefRepositoryJPA shefRepository;
     private final VrabotenRepositoryJPA vrabotenRepository;
     private final KlientRepositoryJPA klientRepository;
 
-    public UserServiceImpl(UserRepositoryJPA userRepository, PasswordEncoder passwordEncoder, ShefRepositoryJPA shefRepository, VrabotenRepositoryJPA vrabotenRepository, KlientRepositoryJPA klientRepository) {
+    public UserServiceImpl(UserRepositoryJPA userRepository, PasswordEncoder passwordEncoder, UgostitelskiObjektRepositoryJPA ugostitelskiObjektRepositoryJPA, ShefRepositoryJPA shefRepository, VrabotenRepositoryJPA vrabotenRepository, KlientRepositoryJPA klientRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.ugostitelskiObjektRepositoryJPA = ugostitelskiObjektRepositoryJPA;
 
 
         this.shefRepository = shefRepository;
@@ -62,8 +59,7 @@ public class UserServiceImpl implements UserService {
 
         //gi zachuvavme i kako objekti !
         if (role.equals(Role.ROLE_ADMIN)) {
-            //  Shef shefUser=new Shef(username,user);
-            // Shef shefUser=new Shef(username);
+
             Shef shefUser = new Shef();
             shefUser.setUser(user);
             shefUser.setUsername(username);
@@ -74,6 +70,7 @@ public class UserServiceImpl implements UserService {
             vrabotenUser.setUsername(username);
             vrabotenUser.setDatumNaVrabotuvanje(LocalDate.now());
             vrabotenUser.setUser(user);
+
             this.vrabotenRepository.save(vrabotenUser);
         } else {
             Klient klient = new Klient();

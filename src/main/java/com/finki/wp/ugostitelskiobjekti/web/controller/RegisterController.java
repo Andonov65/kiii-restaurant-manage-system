@@ -7,6 +7,7 @@ import com.finki.wp.ugostitelskiobjekti.model.Role;
 import com.finki.wp.ugostitelskiobjekti.model.exceptions.InvalidArgumentException;
 import com.finki.wp.ugostitelskiobjekti.model.exceptions.PasswordDoNotMatchException;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,6 +46,7 @@ private  UgostitelskiObjektService ugostitelskiObjektService;
         return "master-template";
     }
 
+    @Transactional
     @PostMapping
     public String register(@RequestParam String username,
                            @RequestParam String password,
@@ -63,10 +65,10 @@ private  UgostitelskiObjektService ugostitelskiObjektService;
                 //TODO spored role da se napravat objekti
                 return "redirect:/login";//go redirectirame kon login otkako se registriral
                 }else{
-                this.userService.register(username, password, repeatedPassword, name, surname, role, phoneNum);
-                this.ugostitelskiObjektService.vraboti(username,objId);
-                //TODO da se napravi objekt na vraboten
 
+                this.userService.register(username, password, repeatedPassword, name, surname, role, phoneNum);
+                //TODO da se napravi objekt na vraboten
+                this.ugostitelskiObjektService.vraboti(username,objId);
                 return "redirect:/home";//tuka kje vleze koga dodal vraboten
             }
         }catch (InvalidArgumentException | PasswordDoNotMatchException exception) {

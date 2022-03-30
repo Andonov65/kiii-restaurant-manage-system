@@ -14,8 +14,7 @@ public class Grad {
 
     private String imeGrad;
 
-//    @OneToMany
-//    private List<UgostitelskiObjekt> ugostitelskiObjektList;
+
 
     public Grad() {
     }

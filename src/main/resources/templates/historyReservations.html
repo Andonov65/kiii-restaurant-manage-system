@@ -19,6 +19,7 @@
                         <th scope="col">Име</th>
 
                         <th scope="col">Угостителски објект</th>
+                        <th scope="col">Вкупно луѓе</th>
                         <th scope="col">Датум</th>
                         <th scope="col">Време</th>
                         <th scope="col"></th>
@@ -31,6 +32,7 @@
                             <tr scope="row" >
                                 <td th:text="${rez.klient.username}"></td>
                                 <td th:text="${rez.ugostitelskiObjekt.imeNaObjekt}"></td>
+                                <td th:text="${rez.vkupnoLugje}"></td>
                                 <td th:text="${rez.localDate}"></td>
                                 <td th:text="${rez.localTime}"></td>
 

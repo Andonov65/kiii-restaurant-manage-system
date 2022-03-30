@@ -10,8 +10,6 @@ import java.util.List;
 @Repository
 public interface UgostitelskiObjektRepositoryJPA extends JpaRepository<UgostitelskiObjekt, Long> {
     UgostitelskiObjekt findUgostitelskiObjektByImeNaObjekt(String ime);
-    UgostitelskiObjekt deleteByImeNaObjekt(String ime);
-    List<UgostitelskiObjekt> findAllByShefUsername(String username);
     List<UgostitelskiObjekt> getAllByShef_Username(String username);
     List<UgostitelskiObjekt> getAllByShef(Shef shef);
 
