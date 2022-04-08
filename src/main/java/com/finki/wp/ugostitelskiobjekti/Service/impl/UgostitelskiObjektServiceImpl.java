@@ -154,19 +154,44 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
     @Transactional
     @Override
     public void deleteUgostitelskiObjekt(Long id) {
-       this.rezervacijaRepositoryJPA.deleteAllByUgostitelskiObjektId(id);
-        List<UgostitelskiObjekt> ugostitelskiObjektList =this.ugostitelskiObjektRepositoryJPA.findAll()
-                .stream().filter(i -> i.getId().equals(id))
-                .collect(Collectors.toList());
 
-        ugostitelskiObjektList
-                .forEach(i -> i.getVrabotenList()
+        UgostitelskiObjekt ugostitelskiObjektList =this.ugostitelskiObjektRepositoryJPA.findAll()
+                .stream().filter(i -> i.getId().equals(id)).findFirst().orElseThrow(RuntimeException::new);
+
+
+           this.ugostitelskiObjektRepositoryJPA.findById(ugostitelskiObjektList.getId())
+                   .get().getRezervacijaList().clear();
+//            this.ugostitelskiObjektRepositoryJPA.findById(ugostitelskiObjektList.getId())
+//                    .get().getVrabotenList().clear();
+
+
+
+            rezervacijaRepositoryJPA.deleteAllByUgostitelskiObjektId(ugostitelskiObjektList.getId());
+
+
+        ugostitelskiObjektList.getVrabotenList()
                         .forEach(o ->{
                             userRepositoryJPA.deleteByUsername(o.getUsername());
                                     vrabotenRepositoryJPA.deleteByUsername(o.getUsername());
-                        } ));
+                        } );
+
 
         this.ugostitelskiObjektRepositoryJPA.deleteById(id);
+    }
+
+    @Transactional
+    @Override
+    public void deleteEmpFromUgostitelskiObjekt(String username) {
+        this.ugostitelskiObjektRepositoryJPA
+                .findAll()
+                .forEach(i -> i.getVrabotenList()
+                        .removeIf(o ->
+                                o.getUsername().equals(username)));
+
+
+        this.vrabotenRepositoryJPA.deleteByUsername(username);
+
+        this.userRepositoryJPA.deleteByUsername(username);
     }
 
 

@@ -1,10 +1,12 @@
 package com.finki.wp.ugostitelskiobjekti.web.controller;
 
 import com.finki.wp.ugostitelskiobjekti.Service.ShefService;
+import com.finki.wp.ugostitelskiobjekti.Service.UserService;
 import com.finki.wp.ugostitelskiobjekti.model.Shef;
 import com.finki.wp.ugostitelskiobjekti.model.UgostitelskiObjekt;
 import com.finki.wp.ugostitelskiobjekti.Service.GradService;
 import com.finki.wp.ugostitelskiobjekti.Service.UgostitelskiObjektService;
+import com.finki.wp.ugostitelskiobjekti.model.User;
 import com.finki.wp.ugostitelskiobjekti.model.Vraboten;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +24,7 @@ public class AdminController {
     private final UgostitelskiObjektService ugostitelskiObjektService;
     private final GradService gradService;
     private final ShefService shefService;
+
 
     public AdminController(UgostitelskiObjektService ugostitelskiObjektService, GradService gradService, ShefService shefService) {
         this.ugostitelskiObjektService = ugostitelskiObjektService;
@@ -102,7 +105,15 @@ public class AdminController {
 
     @DeleteMapping("/delete/{id}")
     public String deleteUgostitelskiObjekt(@PathVariable Long id){
+
         this.ugostitelskiObjektService.deleteUgostitelskiObjekt(id);
         return "redirect:/home";
+    }
+
+
+    @DeleteMapping("/deleteEmp/{username}")
+    public String deleteEmp(@PathVariable String username){
+        this.ugostitelskiObjektService.deleteEmpFromUgostitelskiObjekt(username);
+        return "redirect:/admin/employees";
     }
 }

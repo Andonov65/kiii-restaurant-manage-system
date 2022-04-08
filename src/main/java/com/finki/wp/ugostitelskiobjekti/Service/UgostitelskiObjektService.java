@@ -29,4 +29,6 @@ public interface UgostitelskiObjektService {
     List<UgostitelskiObjekt> imeTextContaining(String text);
 
     void deleteUgostitelskiObjekt(Long id);
+
+    void deleteEmpFromUgostitelskiObjekt(String username);
 }

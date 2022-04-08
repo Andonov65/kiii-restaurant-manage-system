@@ -32,6 +32,15 @@
                                     <td  th:text="${emp.getUser().getName()}"></td>
                                     <td  th:text="${emp.getUser().getSurname()}"></td>
                                     <td  th:text="${emp.ugostitelskiObjekt.getImeNaObjekt()}"></td>
+
+                                    <td>
+                                        <form th:action="@{'/admin/deleteEmp/{username}' (username=${emp.getUsername()})}"
+                                                th:method="DELETE">
+                                            <button type="submit"
+                                                    class="btn btn-sm btn-danger">Избриши</button>
+                                        </form>
+                                    </td>
+
                                 </tr>
                             </div>
                             </tbody>
