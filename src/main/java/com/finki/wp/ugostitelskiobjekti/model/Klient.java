@@ -14,7 +14,7 @@ public class Klient {
     @Id
     private String username;
 
-    private Integer vozrast;
+//    private Integer vozrast;
 
     @OneToOne(cascade = CascadeType.ALL)
     @MapsId
@@ -27,8 +27,5 @@ public class Klient {
     }
     public Klient(String username) {
         this.username=username;
-    }
-    public Klient(Integer vozrast) {
-        this.vozrast = vozrast;
     }
 }

@@ -29,16 +29,22 @@
         </p>
         <p>
             <label for="name" class="sr-only">Име</label>
-            <input type="text" id="name" name="name" class="form-control" placeholder="Име" required="" autofocus="">
+            <input type="text" id="name" name="name" class="form-control"
+                   pattern="^([A-Z]){1}([a-z])+$" title="Започнете со голема буква, невалиден внес!"
+                   placeholder="Име" required="" autofocus="">
         </p>
         <p>
             <label for="surname" class="sr-only">Презиме</label>
-            <input type="text" id="surname" name="surname" class="form-control" placeholder="Презиме" required=""
+            <input type="text" id="surname" name="surname" class="form-control"
+                   pattern="^([A-Z]){1}([a-z])+$" title="Започнете со голема буква, невалиден внес!"
+                   placeholder="Презиме" required=""
                    autofocus="">
         </p>
         <p>
             <label for="phoneNum" class="sr-only">Телефонски број</label>
-            <input type="text" id="phoneNum" name="phoneNum" class="form-control" placeholder="Телефонски број"
+            <input type="text" id="phoneNum" name="phoneNum" class="form-control"
+                   pattern="^(07)(0|1|2|5|6|7|8) [0-9]{3} [0-9]{3}$" title="Невалиден внес!"
+                   placeholder="070 000 000"
                    required=""
                    autofocus="">
         </p>
