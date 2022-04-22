@@ -147,7 +147,7 @@ public class UgostitelskiObjektServiceImpl implements UgostitelskiObjektService 
     @Override
     public List<UgostitelskiObjekt> imeTextContaining(String text) {
        return this.ugostitelskiObjektRepositoryJPA.findAll()
-               .stream().filter(i -> i.getImeNaObjekt().contains(text))
+               .stream().filter(i -> i.getImeNaObjekt().toLowerCase().contains(text.toLowerCase()))
                .collect(Collectors.toList());
     }
 
