@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: com.finki.wp.ugostitelskiobjekti.UgostitelskiObjektiApplicat
+ ion
+
